@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Navbar } from './pages/Navbar'
 import { Hero } from './pages/Hero'
 import { WhyUs } from './pages/WhyUs'
