@@ -1,6 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { CategoryCards } from './Category';
 
-const PRODUCTS = [
+// Interfaces for backend integration
+export interface Category {
+  id: string | number;
+  name: string;
+  icon: string;
+}
+
+export interface Product {
+  id: string | number;
+  name: string;
+  description: string;
+  price: string;
+  unit: string;
+  category: string;
+  badge: string;
+  badgeColor: string;
+  image: string;
+}
+
+// Mock initial data (Will be replaced by API call later)
+const MOCK_CATEGORIES: Category[] = [
+  { id: 1, name: 'All', icon: '🌟' },
+  { id: 2, name: 'Chips & Snacks', icon: '🥔' },
+  { id: 3, name: 'Premixes', icon: '🍹' },
+  { id: 4, name: 'Powders', icon: '🥣' }
+];
+
+const MOCK_PRODUCTS: Product[] = [
   {
     id: 1,
     name: 'Beetroot Chips',
@@ -58,20 +86,55 @@ const PRODUCTS = [
   }
 ];
 
-const CATEGORIES = ['All', 'Chips & Snacks', 'Premixes', 'Powders'];
-
 export function Products() {
   const [activeTab, setActiveTab] = useState('All');
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Simulate fetching data from backend API
+  useEffect(() => {
+    const fetchFromAdmin = async () => {
+      try {
+        setLoading(true);
+        // Replace with actual API endpoints like:
+        // const catRes = await fetch('/api/categories');
+        // const prodRes = await fetch('/api/products');
+        // const catData = await catRes.json();
+        // const prodData = await prodRes.json();
+        
+        // Simulating network delay
+        setTimeout(() => {
+          setCategories(MOCK_CATEGORIES);
+          setProducts(MOCK_PRODUCTS);
+          setLoading(false);
+        }, 500);
+      } catch (error) {
+        console.error("Failed to load backend data", error);
+        setLoading(false);
+      }
+    };
+
+    fetchFromAdmin();
+  }, []);
 
   const filteredProducts = activeTab === 'All' 
-    ? PRODUCTS 
-    : PRODUCTS.filter(p => p.category === activeTab);
+    ? products 
+    : products.filter(p => p.category === activeTab);
 
   return (
-    <section className="bg-cream py-[80px] lg:py-[120px] px-[5%] lg:px-[8%]" id="products">
+    <section className="bg-cream py-[40px] lg:py-[60px] px-[5%] lg:px-[8%]" id="products">
       
       {/* Header & Tabs */}
-      <div className="flex flex-wrap justify-between items-end mb-[3rem] gap-[1.5rem]">
+      <div className="flex flex-col mb-[2rem]">
+        {/* Tabs moved above */}
+        <CategoryCards 
+          categories={categories}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          loading={loading}
+        />
+        
         <div>
           <span className="inline-block text-[#7b9c66] text-[0.85rem] font-bold tracking-[0.12em] uppercase mb-[0.8rem]">
             OUR PRODUCTS
@@ -79,22 +142,6 @@ export function Products() {
           <h2 className="font-heading text-[clamp(2.2rem,4vw,3.8rem)] font-black text-forest leading-[1.1]">
             Sun-Dried.<br/>Solar Powered.
           </h2>
-        </div>
-        
-        <div className="flex gap-[1rem] flex-wrap">
-          {CATEGORIES.map(category => (
-            <button
-              key={category}
-              onClick={() => setActiveTab(category)}
-              className={`px-[1.4rem] py-[0.6rem] rounded-[30px] text-[0.85rem] font-bold transition-all duration-200 border border-[#487c2f33] ${
-                activeTab === category 
-                  ? 'bg-forest text-white' 
-                  : 'bg-transparent text-forest hover:bg-forest hover:text-white'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
         </div>
       </div>
 
@@ -118,6 +165,9 @@ export function Products() {
             />
             
             {/* Content */}
+            <div className="text-[#7b9c66] text-[0.7rem] font-extrabold tracking-[0.1em] uppercase mb-[0.4rem]">
+              {product.category}
+            </div>
             <h3 className="text-[1.1rem] lg:text-[1.2rem] font-extrabold text-forest mb-[0.4rem]">
               {product.name}
             </h3>
@@ -130,8 +180,13 @@ export function Products() {
               <span className="text-[1.1rem] font-extrabold text-[#c88d22]">
                 {product.price} <span className="text-[0.75rem] font-medium text-text-mid">{product.unit}</span>
               </span>
-              <button className="bg-forest text-white px-[1rem] py-[0.5rem] rounded-[20px] flex justify-center items-center text-[0.85rem] font-bold border-none cursor-pointer transition-all duration-200 hover:bg-[#3a6326] shadow-sm">
-                + Add
+              <button className="bg-forest text-white px-[1rem] py-[0.5rem] rounded-[20px] flex justify-center items-center gap-[0.4rem] text-[0.85rem] font-bold border-none cursor-pointer transition-all duration-200 hover:bg-[#3a6326] shadow-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                Add
               </button>
             </div>
           </div>
