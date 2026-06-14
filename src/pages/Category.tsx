@@ -1,7 +1,7 @@
-import type { Category } from './Products';
+import type { UICategory } from '../api/categoryApi';
 
 interface CategoryProps {
-  categories: Category[];
+  categories: UICategory[];
   activeTab: string;
   setActiveTab: (tab: string) => void;
   loading: boolean;
