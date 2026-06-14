@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { createOrder } from '../api/orderApi';
 
 export function CheckoutModal() {
-  const { isCheckoutOpen, setIsCheckoutOpen, items, getCartTotal, clearCart } = useCartStore();
+  const { isCheckoutOpen, setIsCheckoutOpen, setIsOpen, items, getCartTotal, clearCart } = useCartStore();
   const { user, addOrder } = useAuthStore();
   const [step, setStep] = useState<1 | 2>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +78,23 @@ export function CheckoutModal() {
             {/* Left: Form */}
             <div className="w-full md:w-3/5 p-[2rem] lg:p-[3rem]">
               <div className="flex items-center justify-between mb-[2rem]">
-                <h2 className="font-heading text-[2rem] font-black text-forest">Checkout</h2>
+                <div className="flex items-center gap-[1rem]">
+                  <button 
+                    onClick={() => {
+                      setIsCheckoutOpen(false);
+                      setIsOpen(true); // Open cart drawer back
+                    }}
+                    className="px-[12px] py-[6px] rounded-[20px] bg-[#f5f5f5] flex items-center justify-center gap-[6px] text-forest font-bold hover:bg-[#eee] transition-colors border-none cursor-pointer text-[0.85rem]"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="19" y1="12" x2="5" y2="12"></line>
+                      <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Cart
+                  </button>
+                  <h2 className="font-heading text-[2rem] font-black text-forest m-0">Checkout</h2>
+                </div>
+                
                 <button 
                   onClick={handleClose}
                   className="w-[35px] h-[35px] rounded-full bg-[#f5f5f5] flex items-center justify-center text-forest hover:bg-[#eee] transition-colors border-none cursor-pointer"

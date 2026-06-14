@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getMe } from '../api/authApi';
 
 export interface User {
   firstName: string;
@@ -29,6 +30,7 @@ interface AuthStore {
   login: (user: User) => void;
   logout: () => void;
   addOrder: (order: Order) => void;
+  checkAuth: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -39,6 +41,21 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isProfileOpen: false,
   setProfileOpen: (isOpen) => set({ isProfileOpen: isOpen }),
   login: (user) => set({ user, isAuthModalOpen: false }),
-  logout: () => set({ user: null, orders: [] }),
-  addOrder: (order) => set((state) => ({ orders: [order, ...state.orders] }))
+  logout: () => {
+    localStorage.removeItem('token');
+    set({ user: null, orders: [] });
+  },
+  addOrder: (order) => set((state) => ({ orders: [order, ...state.orders] })),
+  checkAuth: async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const data = await getMe(token);
+      set({ user: data.user });
+    } catch (error) {
+      localStorage.removeItem('token');
+      set({ user: null });
+    }
+  }
 }));

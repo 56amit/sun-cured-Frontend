@@ -21,12 +21,13 @@ export function CartDrawer() {
           <h2 className="font-heading text-[1.5rem] font-black text-forest m-0">Your Cart</h2>
           <button 
             onClick={() => setIsOpen(false)}
-            className="w-[35px] h-[35px] rounded-full bg-white shadow-sm flex items-center justify-center text-forest hover:bg-[#eee] transition-colors cursor-pointer border-none"
+            className="px-[15px] py-[6px] rounded-[20px] bg-white shadow-sm flex items-center justify-center gap-[6px] text-forest font-bold hover:bg-[#eee] transition-colors cursor-pointer border-none text-[0.85rem]"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
+            Back
           </button>
         </div>
 
