@@ -57,9 +57,21 @@ export function ProductModal({ product, categoryName = 'Unknown', onClose }: Pro
           </svg>
         </button>
 
+        {/* Back Button (Mobile friendly) */}
+        <button 
+          onClick={onClose}
+          className="absolute top-[1rem] left-[1rem] z-10 px-[15px] py-[6px] rounded-[20px] bg-white shadow-md flex items-center justify-center gap-[6px] text-forest font-bold hover:bg-[#eee] transition-colors cursor-pointer border-none text-[0.85rem]"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back
+        </button>
+
         {/* Image Section */}
-        <div className="w-full md:w-1/2 bg-[#f9f9f9] p-[2rem] flex items-center justify-center relative">
-          <span className={`absolute top-[1.5rem] left-[1.5rem] ${product.badgeColor} px-[14px] py-[6px] rounded-[20px] text-[0.75rem] font-bold text-white z-10 shadow-sm`}>
+        <div className="w-full md:w-1/2 bg-[#f9f9f9] p-[2rem] flex items-center justify-center relative pt-[4rem]">
+          <span className={`absolute top-[4rem] left-[1.5rem] ${product.badgeColor} px-[14px] py-[6px] rounded-[20px] text-[0.75rem] font-bold text-white z-10 shadow-sm`}>
             {product.badge}
           </span>
           <img 

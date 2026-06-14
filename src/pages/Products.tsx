@@ -5,6 +5,7 @@ import { useCartStore } from '../store/cartStore';
 import { useProducts } from '../hooks/useProducts';
 import { useCategories } from '../hooks/useCategories';
 import type { UIProduct } from '../api/productApi';
+import { toast } from 'sonner';
 
 // Interfaces for backend integration
 export interface Category {
@@ -38,8 +39,10 @@ export function Products() {
   
   const loading = catLoading || prodLoading;
   
-  // Get cart items to show badge on added products
+  // Get cart items and actions to show badge/counter on added products
   const cartItems = useCartStore(state => state.items);
+  const addToCart = useCartStore(state => state.addToCart);
+  const updateQuantity = useCartStore(state => state.updateQuantity);
 
   const filteredProducts = products.filter(p => {
     const cat = categories.find(c => c.id === p.categoryId);
@@ -63,22 +66,7 @@ export function Products() {
           loading={loading}
         />
         
-        {/* Search Bar */}
-        <div className="flex justify-center mb-[1rem]">
-          <div className="relative w-full max-w-[500px]">
-            <input 
-              type="text" 
-              placeholder="Search products..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-[1.5rem] py-[0.8rem] rounded-[30px] border border-[#ddd] focus:border-forest focus:ring-1 focus:ring-forest outline-none transition-all pl-[3rem]"
-            />
-            <svg className="absolute left-[1rem] top-1/2 transform -translate-y-1/2 text-text-mid" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </div>
-        </div>
+
         
         <div>
           <span className="inline-block text-[#7b9c66] text-[0.85rem] font-bold tracking-[0.12em] uppercase mb-[0.8rem]">
@@ -87,6 +75,23 @@ export function Products() {
           <h2 className="font-heading text-[clamp(2.2rem,4vw,3.8rem)] font-black text-forest leading-[1.1]">
             Sun-Dried.<br/>Solar Powered.
           </h2>
+        </div>
+      </div>
+
+      {/* Sticky Search Bar */}
+      <div className="sticky top-[70px] z-30 bg-cream py-[15px] flex justify-center mb-[2rem] border-b border-[#eee]">
+        <div className="relative w-full max-w-[700px]">
+          <input 
+            type="text" 
+            placeholder="Search products..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-[1.8rem] py-[1.2rem] text-[1.1rem] rounded-[40px] border border-[#ddd] focus:border-forest focus:ring-2 focus:ring-forest outline-none transition-all pl-[4rem] shadow-sm bg-white"
+          />
+          <svg className="absolute left-[1.5rem] top-1/2 transform -translate-y-1/2 text-text-mid" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
         </div>
       </div>
 
@@ -140,14 +145,43 @@ export function Products() {
                 <span className="text-[1.1rem] font-extrabold text-[#c88d22]">
                   {product.price} <span className="text-[0.75rem] font-medium text-text-mid">{product.unit}</span>
                 </span>
-                <button className="bg-forest text-white px-[1rem] py-[0.5rem] rounded-[20px] flex justify-center items-center gap-[0.4rem] text-[0.85rem] font-bold border-none cursor-pointer transition-all duration-200 hover:bg-[#3a6326] shadow-sm">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
-                  Add
-                </button>
+                
+                {quantityInCart > 0 ? (
+                  <div 
+                    className="flex items-center gap-[0.5rem] bg-[#f5f5f5] rounded-[20px] p-[0.2rem] shadow-inner" 
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button 
+                      onClick={() => updateQuantity(product.id, quantityInCart - 1)}
+                      className="w-[28px] h-[28px] rounded-full bg-white shadow-sm flex items-center justify-center text-forest font-bold hover:bg-[#eee] transition-colors cursor-pointer border-none"
+                    >
+                      -
+                    </button>
+                    <span className="w-[20px] text-center font-bold text-[0.95rem] text-forest">{quantityInCart}</span>
+                    <button 
+                      onClick={() => updateQuantity(product.id, quantityInCart + 1)}
+                      className="w-[28px] h-[28px] rounded-full bg-white shadow-sm flex items-center justify-center text-forest font-bold hover:bg-[#eee] transition-colors cursor-pointer border-none"
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product, 1);
+                      toast.success(`Added ${product.name} to cart`);
+                    }}
+                    className="bg-forest text-white px-[1rem] py-[0.5rem] rounded-[20px] flex justify-center items-center gap-[0.4rem] text-[0.85rem] font-bold border-none cursor-pointer transition-all duration-200 hover:bg-[#3a6326] shadow-sm"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="9" cy="21" r="1"></circle>
+                      <circle cx="20" cy="21" r="1"></circle>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    Add
+                  </button>
+                )}
               </div>
             </div>
           );

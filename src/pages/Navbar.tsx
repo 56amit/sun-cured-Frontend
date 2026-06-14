@@ -40,15 +40,16 @@ export function Navbar() {
           </li>
         ))}
         <li>
-          <Button asChild className="bg-transparent border-none hover:bg-forest/10 p-2 rounded-full cursor-pointer text-forest transition-colors shadow-none mr-2 relative">
-            <button aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <Button asChild className="bg-forest/10 border-none px-[16px] py-[8px] rounded-[20px] cursor-pointer text-forest font-bold shadow-none transition-colors hover:bg-forest/20 text-[0.95rem] h-auto mr-[0.5rem] relative">
+            <button aria-label="Cart" onClick={() => setIsCartOpen(true)} className="flex items-center gap-[6px]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
+              <span>Cart</span>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-[#e69b24] text-white text-[0.65rem] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full border-2 border-cream">
+                <span className="absolute -top-[4px] -right-[4px] bg-[#e69b24] text-white text-[0.7rem] font-bold w-[22px] h-[22px] flex items-center justify-center rounded-full border-[2px] border-cream">
                   {cartCount}
                 </span>
               )}
@@ -58,8 +59,14 @@ export function Navbar() {
         <li>
           {user ? (
             <div className="relative group">
-              <Button asChild className="bg-forest/10 border-none px-[16px] rounded-[20px] cursor-pointer text-forest font-bold shadow-none">
-                <button aria-label="User Profile">Hi, {user.firstName}</button>
+              <Button asChild className="bg-forest/10 border-none px-[20px] py-[8px] rounded-[20px] cursor-pointer text-forest font-bold shadow-none transition-colors hover:bg-forest/20 text-[0.95rem] h-auto">
+                <button aria-label="User Profile" className="flex items-center gap-[6px]">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span>Hi, {user.firstName}</span>
+                </button>
               </Button>
               <div className="absolute top-full right-0 mt-2 w-[150px] bg-white rounded-[12px] shadow-lg border border-[#eee] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 flex flex-col p-[8px] gap-[4px]">
                 <button onClick={() => setProfileOpen(true)} className="w-full text-left px-3 py-2 text-forest font-bold hover:bg-[#f5f5f5] rounded-[8px] border-none bg-transparent cursor-pointer">My Profile</button>
@@ -67,12 +74,13 @@ export function Navbar() {
               </div>
             </div>
           ) : (
-            <Button asChild className="bg-transparent border-none hover:bg-forest/10 p-2 rounded-full cursor-pointer text-forest transition-colors shadow-none">
-              <button aria-label="Login" onClick={() => setAuthModalOpen(true)}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <Button asChild className="bg-forest/10 border-none px-[20px] py-[8px] rounded-[20px] cursor-pointer text-forest font-bold shadow-none transition-colors hover:bg-forest/20 text-[0.95rem] h-auto">
+              <button aria-label="Login" onClick={() => setAuthModalOpen(true)} className="flex items-center gap-[6px]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
+                <span>Login</span>
               </button>
             </Button>
           )}

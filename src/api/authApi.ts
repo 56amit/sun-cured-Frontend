@@ -29,3 +29,19 @@ export const loginUser = async (data: any) => {
 
   return response.json();
 };
+
+export const getMe = async (token: string) => {
+  const response = await fetch(`${API_URL}/auth/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch user');
+  }
+
+  return response.json();
+};

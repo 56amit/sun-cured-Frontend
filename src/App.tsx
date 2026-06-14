@@ -12,8 +12,16 @@ import { CheckoutModal } from './pages/CheckoutModal'
 import { AuthModal } from './pages/AuthModal'
 import { UserProfileModal } from './pages/UserProfileModal'
 import { Toaster } from 'sonner'
+import { useEffect } from 'react'
+import { useAuthStore } from './store/authStore'
 
 export default function App() {
+  const checkAuth = useAuthStore(state => state.checkAuth)
+
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
   return (
     <div className="relative min-h-screen">
       <Navbar />
