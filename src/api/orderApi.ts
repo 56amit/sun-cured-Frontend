@@ -1,4 +1,4 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 // Interfaces
 export interface OrderItemPayload {
@@ -29,9 +29,21 @@ export interface OrderResponse {
 }
 
 // Endpoints
-const ORDER_ENDPOINT = '/orders';
+const ORDER_ENDPOINT = "/orders/create";
 
-export const createOrder = async (orderData: OrderPayload): Promise<OrderResponse> => {
-  const { data } = await axiosClient.post<OrderResponse>(ORDER_ENDPOINT, orderData);
+export const createOrder = async (
+  orderData: OrderPayload,
+): Promise<OrderResponse> => {
+  const token = localStorage.getItem("token");
+  const { data } = await axiosClient.post<OrderResponse>(
+    ORDER_ENDPOINT,
+    orderData,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   return data;
 };
