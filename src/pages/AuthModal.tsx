@@ -4,8 +4,9 @@ import { toast } from 'sonner';
 import { loginUser, registerUser } from '../api/authApi';
 
 export function AuthModal() {
-  const { isAuthModalOpen, setAuthModalOpen, login } = useAuthStore();
+  const { isAuthModalOpen, setAuthModalOpen, login, checkAuth } = useAuthStore();
   const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [showPassword, setShowPassword] = useState(false);
 
   if (!isAuthModalOpen) return null;
 
@@ -29,6 +30,9 @@ export function AuthModal() {
       
       // Update store
       login(result.user);
+      
+      // Fetch orders immediately
+      checkAuth();
     } catch (error: any) {
       toast.error(error.message || 'Authentication failed');
     }
@@ -85,7 +89,21 @@ export function AuthModal() {
           )}
 
           <input required name="email" type="email" placeholder="Email Address" className="px-[1rem] py-[0.8rem] rounded-[12px] border border-[#ddd] focus:border-forest focus:ring-1 focus:ring-forest outline-none transition-all mt-[0.5rem]" />
-          <input required name="password" type="password" placeholder="Password" className="px-[1rem] py-[0.8rem] rounded-[12px] border border-[#ddd] focus:border-forest focus:ring-1 focus:ring-forest outline-none transition-all" />
+          
+          <div className="relative">
+            <input required name="password" type={showPassword ? "text" : "password"} placeholder="Password" className="w-full px-[1rem] py-[0.8rem] rounded-[12px] border border-[#ddd] focus:border-forest focus:ring-1 focus:ring-forest outline-none transition-all pr-[2.5rem]" />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-forest bg-transparent border-none cursor-pointer p-0"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              )}
+            </button>
+          </div>
 
           <button type="submit" className="w-full bg-forest text-white py-[1.2rem] rounded-[30px] font-extrabold text-[1.1rem] border-none cursor-pointer transition-all duration-300 hover:bg-[#3a6326] shadow-lg mt-[1rem]">
             {mode === 'login' ? 'Sign In' : 'Create Account'}

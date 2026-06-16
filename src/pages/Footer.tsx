@@ -34,8 +34,8 @@ export function Footer() {
           
           {/* Brand */}
           <div>
-            <div className="font-heading text-[1.8rem] font-black text-white mb-[1rem]">
-              Sun-<span className="text-[#c88d22]">Cured</span> Savories
+            <div className="mb-[1.5rem] relative w-[110px] h-[110px] overflow-hidden rounded-full border border-white/20 shadow-lg">
+              <img src="/logo.png" alt="Sun-Cured Savories Logo" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[220px] max-w-none object-cover" />
             </div>
             <p className="text-[0.9rem] text-white/70 leading-[1.6] mb-[2rem]">
               Bringing traditional solar-dried nutrition to modern Indian households. Pure. Natural. Delicious.

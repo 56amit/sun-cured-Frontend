@@ -11,6 +11,7 @@ import { CartDrawer } from './pages/CartDrawer'
 import { CheckoutModal } from './pages/CheckoutModal'
 import { AuthModal } from './pages/AuthModal'
 import { UserProfileModal } from './pages/UserProfileModal'
+import { ReviewModal } from './pages/ReviewModal'
 import { Toaster } from 'sonner'
 import { useEffect } from 'react'
 import { useAuthStore } from './store/authStore'
@@ -38,6 +39,7 @@ export default function App() {
       <CheckoutModal />
       <AuthModal />
       <UserProfileModal />
+      <ReviewModal />
       <Toaster position="top-center" richColors />
     </div>
   )

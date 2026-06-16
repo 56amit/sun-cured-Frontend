@@ -31,6 +31,8 @@ interface AuthStore {
   logout: () => void;
   addOrder: (order: Order) => void;
   checkAuth: () => Promise<void>;
+  isReviewModalOpen: boolean;
+  setReviewModalOpen: (isOpen: boolean) => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -40,6 +42,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   setAuthModalOpen: (isOpen) => set({ isAuthModalOpen: isOpen }),
   isProfileOpen: false,
   setProfileOpen: (isOpen) => set({ isProfileOpen: isOpen }),
+  isReviewModalOpen: false,
+  setReviewModalOpen: (isOpen) => set({ isReviewModalOpen: isOpen }),
   login: (user) => set({ user, isAuthModalOpen: false }),
   logout: () => {
     localStorage.removeItem('token');
@@ -53,9 +57,24 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       const data = await getMe(token);
       set({ user: data.user });
+      
+      try {
+        const { getMyOrders } = await import('../api/orderApi');
+        const dbOrders = await getMyOrders();
+        const formattedOrders = dbOrders.map((o: any) => ({
+          id: `ORD-${o.id}`,
+          date: new Date(o.createdAt).toLocaleDateString(),
+          total: o.totalAmount,
+          status: o.status
+        }));
+        set({ orders: formattedOrders });
+      } catch (e) {
+        console.error("Failed to fetch orders", e);
+      }
+      
     } catch (error) {
       localStorage.removeItem('token');
-      set({ user: null });
+      set({ user: null, orders: [] });
     }
   }
 }));
