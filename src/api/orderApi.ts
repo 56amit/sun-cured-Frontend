@@ -47,3 +47,13 @@ export const createOrder = async (
   );
   return data;
 };
+
+export const getMyOrders = async () => {
+  const token = localStorage.getItem("token");
+  const { data } = await axiosClient.get("/orders/my-orders", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
