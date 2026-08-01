@@ -5,6 +5,8 @@ import { WhyUs } from './pages/WhyUs'
 import { Products } from './pages/Products'
 import { Benefits } from './pages/Benefits'
 import { Process } from './pages/Process'
+import { Sustainability } from './pages/Sustainability'
+import { Founder } from './pages/Founder'
 import { Testimonials } from './pages/Testimonials'
 import { Footer } from './pages/Footer'
 import { CartDrawer } from './pages/CartDrawer'
@@ -32,6 +34,8 @@ export default function App() {
         <Products />
         <Benefits />
         <Process />
+        <Sustainability />
+        <Founder />
         <Testimonials />
       </main>
       <Footer />

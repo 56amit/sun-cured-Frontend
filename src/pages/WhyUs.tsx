@@ -6,49 +6,52 @@ export function WhyUs() {
         {/* Left Text */}
         <div>
           <span className="inline-block text-sun text-[0.85rem] font-bold tracking-[0.12em] uppercase mb-[0.8rem]">
-            Why Sun-Cured Savories
+            Our Core Belief
           </span>
-          <h2 className="font-heading text-[clamp(2.2rem,4vw,3.8rem)] font-black text-forest leading-[1.1] mb-[1.5rem]">
-            Ancient Wisdom.<br/>Modern Snacking.
+          <h2 className="font-heading text-[clamp(2.2rem,4vw,3.2rem)] font-black text-forest leading-[1.1] mb-[1.5rem]">
+            Nutrition as a Basic Right.
           </h2>
+          <p className="text-text-mid text-[1.05rem] leading-[1.75] mb-[1rem]">
+            At Sun Cured Savories, we believe that nutritious food is a basic human right, not a luxury. We bridge the gap between rural abundance and urban nutrition.
+          </p>
           <p className="text-text-mid text-[1.05rem] leading-[1.75] mb-[2rem]">
-            We revive traditional solar-drying methods rooted in Ayurveda to bring you snacks that are as nutritious as they are delicious — zero compromise on purity.
+            By combining advanced solar-thermal engineering with India's rich agricultural heritage, we create affordable, nutrient-dense, and highly accessible food solutions.
           </p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-[1rem] mt-[1.8rem]">
             {/* Pillar 1 */}
             <div className="bg-white border border-[#487c2f1f] rounded-[16px] p-[1.2rem] transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_28px_rgba(45,80,22,0.1)]">
               <div className="text-[1.7rem] mb-[0.5rem]">☀️</div>
-              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Solar Dried</h4>
+              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Solar Engineered</h4>
               <p className="text-[0.78rem] text-text-mid leading-[1.5]">
-                Zero emissions, low-heat preservation that locks in vitamins & flavour.
+                Retaining 100% natural vitamins and minerals to bring pure health back to your plate.
               </p>
             </div>
             
             {/* Pillar 2 */}
             <div className="bg-white border border-[#487c2f1f] rounded-[16px] p-[1.2rem] transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_28px_rgba(45,80,22,0.1)]">
               <div className="text-[1.7rem] mb-[0.5rem]">🌿</div>
-              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">No Preservatives</h4>
+              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Itadakimasu</h4>
               <p className="text-[0.78rem] text-text-mid leading-[1.5]">
-                No added sugar, colour, or chemicals — completely natural.
+                "I humbly receive" — a deep reverence for nature's life-giving gifts.
               </p>
             </div>
             
             {/* Pillar 3 */}
             <div className="bg-white border border-[#487c2f1f] rounded-[16px] p-[1.2rem] transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_28px_rgba(45,80,22,0.1)]">
               <div className="text-[1.7rem] mb-[0.5rem]">🧑‍🌾</div>
-              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Farmer First</h4>
+              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Respecting the Harvest</h4>
               <p className="text-[0.78rem] text-text-mid leading-[1.5]">
-                Supporting local farmers with fair wages & reducing post-harvest waste.
+                Honoring the life of every seed planted and the sweat of our farmers.
               </p>
             </div>
             
             {/* Pillar 4 */}
             <div className="bg-white border border-[#487c2f1f] rounded-[16px] p-[1.2rem] transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_28px_rgba(45,80,22,0.1)]">
               <div className="text-[1.7rem] mb-[0.5rem]">💚</div>
-              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Eco Friendly</h4>
+              <h4 className="text-[0.88rem] font-bold text-forest mb-[0.3rem]">Pure Nutrition</h4>
               <p className="text-[0.78rem] text-text-mid leading-[1.5]">
-                Solar-powered process with the lowest possible carbon footprint.
+                Preserving natural energy without altering its purity or harming our planet.
               </p>
             </div>
           </div>
