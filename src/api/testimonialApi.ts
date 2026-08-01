@@ -18,7 +18,7 @@ export interface TestimonialResponse {
 }
 
 export const getApprovedTestimonials = async (): Promise<TestimonialResponse[]> => {
-  const { data } = await axiosClient.get<TestimonialResponse[]>("/testimonials/approved");
+  const { data } = await axiosClient.get<TestimonialResponse[]>("/testimonials");
   return data;
 };
 

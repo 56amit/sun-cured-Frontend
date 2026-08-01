@@ -1,47 +1,30 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+import axiosClient from "./axiosClient";
 
 export const registerUser = async (data: any) => {
-  const response = await fetch(`${API_URL}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || "Registration failed");
+  try {
+    const response = await axiosClient.post("/auth/register", data);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.error || "Registration failed");
   }
-
-  return response.json();
 };
 
 export const loginUser = async (data: any) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || "Login failed");
+  try {
+    const response = await axiosClient.post("/auth/login", data);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.error || "Login failed");
   }
-
-  return response.json();
 };
 
 export const getMe = async (token: string) => {
-  const response = await fetch(`${API_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch user");
+  try {
+    const response = await axiosClient.get("/auth/me", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.error || "Failed to fetch user");
   }
-
-  return response.json();
 };
