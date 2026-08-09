@@ -12,23 +12,25 @@ export function Hero() {
       {/* Left Content */}
       <div className="px-[5%] lg:pl-[8%] py-[80px] relative z-10 animate-[fadeUp_0.7s_ease_both]">
         <div className="inline-flex items-center gap-[8px] bg-sun/20 border border-sun/45 text-[#f2c96a] px-[16px] py-[6px] rounded-[20px] text-[0.78rem] font-extrabold tracking-[0.12em] uppercase mb-[1.5rem]">
-          ☀️ Solar Dried &nbsp;·&nbsp; 100% Natural
+          WELCOME TO SUN CURED SAVORIES
         </div>
         
-        <h1 className="font-heading text-[clamp(2.6rem,4.5vw,4.4rem)] font-black leading-[1.06] text-white mb-[1.4rem]">
-          Nature's Flavour,<em className="not-italic italic text-sun block">Sun-Kissed.</em>
+        <h1 className="font-heading text-[clamp(2.5rem,4.5vw,4rem)] font-black leading-[1.1] text-white mb-[1.4rem]">
+          Pure Sunshine.<br/>
+          Authentic Taste.<br/>
+          <em className="not-italic italic text-sun block">Uncompromised Health.</em>
         </h1>
         
-        <p className="text-white/70 text-[1.05rem] leading-[1.75] mb-[2.2rem] max-w-[430px]">
-          From Beetroot chips to Aam Panna premixes — every product is solar-dried, preservative-free, and packed with Ayurvedic goodness for your family.
+        <p className="text-white/70 text-[1.05rem] leading-[1.75] mb-[2.2rem] max-w-[480px]">
+          Savor Nature in Its Purest Form. We capture the vibrant richness of farm-fresh fruits, vegetables, and whole spices, gently preserving them using the time-tested power of natural solar drying.
         </p>
         
         <div className="flex gap-[1rem] flex-wrap">
           <Button asChild className="bg-sun text-forest px-[30px] py-[14px] rounded-[30px] font-extrabold text-[0.95rem] transition-all duration-250 shadow-[0_4px_22px_rgba(232,160,32,0.45)] hover:shadow-[0_8px_32px_rgba(232,160,32,0.55)] hover:-translate-y-[2px] h-auto">
-            <a href="#products">Explore Products</a>
+            <a href="#products">Explore Our Collection</a>
           </Button>
           <Button asChild variant="outline" className="border-[2px] border-white/40 text-white bg-transparent px-[26px] py-[12px] rounded-[30px] font-bold text-[0.95rem] transition-all duration-250 backdrop-blur-[4px] hover:border-white hover:bg-white/10 hover:-translate-y-[2px] h-auto">
-            <a href="#why-us">Our Story</a>
+            <a href="#about-us">Learn Our Story</a>
           </Button>
         </div>
         

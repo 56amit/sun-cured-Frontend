@@ -1,7 +1,8 @@
 
 import { Navbar } from './pages/Navbar'
 import { Hero } from './pages/Hero'
-import { WhyUs } from './pages/WhyUs'
+import { Intro } from './pages/Intro'
+import { AboutUs } from './pages/AboutUs'
 import { Products } from './pages/Products'
 import { Benefits } from './pages/Benefits'
 import { Process } from './pages/Process'
@@ -30,7 +31,8 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <WhyUs />
+        <Intro />
+        <AboutUs />
         <Products />
         <Benefits />
         <Process />
