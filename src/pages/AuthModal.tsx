@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { toast } from 'sonner';
-import { loginUser, registerUser } from '../api/authApi';
+import { loginUser, registerUser, googleLoginUser } from '../api/authApi';
+import { GoogleLogin } from '@react-oauth/google';
 
 export function AuthModal() {
   const { isAuthModalOpen, setAuthModalOpen, login, checkAuth } = useAuthStore();
@@ -62,6 +63,33 @@ export function AuthModal() {
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
+        </div>
+
+        <div className="mb-[1.5rem] flex flex-col items-center justify-center">
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              if (!credentialResponse.credential) return;
+              try {
+                const result = await googleLoginUser(credentialResponse.credential);
+                toast.success(`Welcome, ${result.user.firstName}!`);
+                localStorage.setItem('token', result.token);
+                login(result.user);
+                checkAuth();
+              } catch (error: any) {
+                toast.error(error.message || 'Google authentication failed');
+              }
+            }}
+            onError={() => {
+              toast.error('Google Login Failed');
+            }}
+            useOneTap
+          />
+        </div>
+        
+        <div className="flex items-center gap-[10px] mb-[1.5rem]">
+          <div className="flex-1 h-[1px] bg-[#eee]"></div>
+          <span className="text-[0.8rem] text-text-mid font-bold uppercase tracking-[0.05em]">or</span>
+          <div className="flex-1 h-[1px] bg-[#eee]"></div>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-[1rem]">
