@@ -106,7 +106,7 @@ export function CheckoutModal() {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-[1.5rem]">
+              <form key={user?.id || 'guest'} onSubmit={handleSubmit} className="flex flex-col gap-[1.5rem]">
                 <div>
                   <h3 className="text-[1.1rem] font-bold text-forest mb-[1rem]">Contact Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
