@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { getMe } from '../api/authApi';
 
 export interface User {
+  id: string | number;
   firstName: string;
   lastName: string;
   email: string;
