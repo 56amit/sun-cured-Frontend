@@ -29,7 +29,7 @@ export interface OrderResponse {
 }
 
 // Endpoints
-const ORDER_ENDPOINT = "/orders/create";
+const ORDER_ENDPOINT = "/orders";
 
 export const createOrder = async (
   orderData: OrderPayload,
