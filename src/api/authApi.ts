@@ -9,12 +9,21 @@ export const registerUser = async (data: any) => {
   }
 };
 
-export const loginUser = async (data: any) => {
+export const loginUser = async (credentials: any) => {
   try {
-    const response = await axiosClient.post("/auth/login", data);
+    const response = await axiosClient.post("/auth/login", credentials);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.error || "Login failed");
+  }
+};
+
+export const googleLoginUser = async (token: string) => {
+  try {
+    const response = await axiosClient.post("/auth/google", { token });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.error || "Google login failed");
   }
 };
 
