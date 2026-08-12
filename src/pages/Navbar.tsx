@@ -110,6 +110,36 @@ export function Navbar() {
                   {link.name}
                 </a>
               ))}
+              <button
+                onClick={() => { setIsCartOpen(true); setIsOpen(false); }}
+                className="text-left text-text-dark font-bold text-lg py-3 border-b border-olive/10 bg-transparent border-t-0 border-l-0 border-r-0 cursor-pointer hover:text-forest flex items-center justify-between"
+              >
+                Cart
+                {cartCount > 0 && <span className="bg-[#e69b24] text-white text-[0.75rem] px-2 py-1 rounded-full">{cartCount} items</span>}
+              </button>
+              {user ? (
+                <>
+                  <button
+                    onClick={() => { setProfileOpen(true); setIsOpen(false); }}
+                    className="text-left text-text-dark font-bold text-lg py-3 border-b border-olive/10 bg-transparent border-t-0 border-l-0 border-r-0 cursor-pointer hover:text-forest"
+                  >
+                    My Profile ({user.firstName})
+                  </button>
+                  <button
+                    onClick={() => { logout(); setIsOpen(false); }}
+                    className="text-left text-red-500 font-bold text-lg py-3 border-b border-olive/10 bg-transparent border-t-0 border-l-0 border-r-0 cursor-pointer hover:text-red-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => { setAuthModalOpen(true); setIsOpen(false); }}
+                  className="text-left text-text-dark font-bold text-lg py-3 border-b border-olive/10 bg-transparent border-t-0 border-l-0 border-r-0 cursor-pointer hover:text-forest"
+                >
+                  Login / Register
+                </button>
+              )}
               <a
                 href="#contact"
                 onClick={() => setIsOpen(false)}
