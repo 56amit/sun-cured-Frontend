@@ -20,8 +20,8 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-[100] bg-cream/96 backdrop-blur-[10px] border-b-[2px] border-olive/15 px-[6%] flex items-center justify-between h-[100px] shadow-[0_2px_20px_rgba(45,80,22,0.08)]">
       {/* Logo */}
-      <a href="#" className="flex items-center no-underline relative w-[90px] h-[90px] overflow-hidden rounded-full border-2 border-forest/20 shadow-sm ml-[-10px]">
-        <img src="/logo.png" alt="Sun-Cured Savories Logo" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[180px] max-w-none object-cover" />
+      <a href="#" className="flex items-center no-underline ml-[-10px]">
+        <img src="/logo.png" alt="Sun-Cured Savories Logo" className="h-[90px] w-[90px] object-cover rounded-full" />
       </a>
 
       {/* Desktop Links */}

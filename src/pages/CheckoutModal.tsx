@@ -186,7 +186,7 @@ export function CheckoutModal() {
             </div>
             <h2 className="font-heading text-[2.5rem] font-black text-forest mb-[1rem]">Order Confirmed!</h2>
             <p className="text-[1.1rem] text-text-mid max-w-[400px] mx-auto mb-[2.5rem]">
-              Thank you for choosing Sun-Cured Savories. Your delicious solar-dried treats will be on their way soon.
+              Thank you for choosing Sun Cured Savories. Your delicious solar dried treats will be on their way soon.
             </p>
             <button 
               onClick={handleClose}
