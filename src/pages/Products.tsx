@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { CategoryCards } from './Category';
 import { ProductModal } from './ProductModal';
 import { useCartStore } from '../store/cartStore';
@@ -32,6 +32,15 @@ export function Products() {
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<UIProduct | null>(null);
+  const productsGridRef = useRef<HTMLDivElement>(null);
+
+  const handleCategorySelect = (tab: string) => {
+    setActiveTab(tab);
+    // Smooth scroll to products grid
+    setTimeout(() => {
+      productsGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
   
   // Custom hooks
   const { categories, loading: catLoading } = useCategories();
@@ -62,7 +71,7 @@ export function Products() {
         <CategoryCards 
           categories={categories}
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleCategorySelect}
           loading={loading}
         />
         
@@ -96,7 +105,7 @@ export function Products() {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[2rem]">
+      <div ref={productsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[2rem]">
         {filteredProducts.map(product => {
           const cartItem = cartItems.find(item => item.id === product.id);
           const quantityInCart = cartItem ? cartItem.quantity : 0;

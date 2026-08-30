@@ -52,7 +52,7 @@ export function Intro() {
             </ul>
           </div>
           <div className="relative h-full min-h-[400px] rounded-[16px] overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1599818815124-706ce27670cb?q=80&w=800&auto=format&fit=crop" alt="Sun Dried Products" className="w-full h-full object-cover absolute inset-0" />
+            <img src="/why-us.png" alt="Sun Dried Products" className="w-full h-full object-cover absolute inset-0" />
           </div>
         </div>
       </div>
