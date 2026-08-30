@@ -80,7 +80,9 @@ export function CheckoutModal() {
         const razorpayOrder = await initiatePayment(cartItems);
 
         const options = {
-          key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+          key: import.meta.env.VITE_NODE_ENV === 'production'
+            ? import.meta.env.VITE_RAZORPAY_KEY_ID_LIVE
+            : import.meta.env.VITE_RAZORPAY_KEY_ID_TEST,
           amount: razorpayOrder.amount,
           currency: razorpayOrder.currency,
           name: 'Sun Cured Savories',
