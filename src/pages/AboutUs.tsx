@@ -1,6 +1,6 @@
 export function AboutUs() {
   return (
-    <section className="bg-cream py-[80px] lg:py-[120px] px-[5%] lg:px-[8%]" id="about-us">
+    <section className="bg-cream pt-[40px] lg:pt-[60px] pb-[80px] lg:pb-[120px] px-[5%] lg:px-[8%]" id="about-us">
       
       {/* Top Header Section */}
       <div className="max-w-[1000px] mx-auto text-center mb-[4rem]">

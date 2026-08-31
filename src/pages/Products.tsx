@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { CategoryCards } from './Category';
 import { ProductModal } from './ProductModal';
 import { useCartStore } from '../store/cartStore';
@@ -62,6 +62,24 @@ export function Products() {
     return matchesTab && matchesSearch;
   });
 
+  // Group filtered products by name
+  const groupedProducts = useMemo(() => {
+    const map = new Map<string, UIProduct[]>();
+    filteredProducts.forEach(p => {
+      const existing = map.get(p.name) || [];
+      existing.push(p);
+      map.set(p.name, existing);
+    });
+    return Array.from(map.entries()).map(([name, variants]) => {
+      // Sort variants by price (ascending) so smaller weights appear first
+      variants.sort((a, b) => parseFloat(a.price.replace('₹', '')) - parseFloat(b.price.replace('₹', '')));
+      return { name, variants };
+    });
+  }, [filteredProducts]);
+
+  // Track the selected variant ID for each product group (keyed by group name)
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, string | number>>({});
+
   return (
     <section className="bg-cream py-[40px] lg:py-[60px] px-[5%] lg:px-[8%]" id="products">
       
@@ -104,19 +122,23 @@ export function Products() {
 
       {/* Products Grid */}
       <div ref={productsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[2rem]">
-        {filteredProducts.map(product => {
-          const cartItem = cartItems.find(item => item.id === product.id);
+        {groupedProducts.map(group => {
+          const variants = group.variants;
+          const selectedVariantId = selectedVariants[group.name] || variants[0].id;
+          const currentVariant = variants.find(v => v.id === selectedVariantId) || variants[0];
+          
+          const cartItem = cartItems.find(item => item.id === currentVariant.id);
           const quantityInCart = cartItem ? cartItem.quantity : 0;
           
           return (
             <div 
-              key={product.id} 
-              onClick={() => setSelectedProduct(product)}
+              key={group.name} 
+              onClick={() => setSelectedProduct(currentVariant)}
               className="cursor-pointer bg-white border border-[#eee] rounded-[24px] p-[1rem] lg:p-[1.2rem] relative transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-[#487c2f33] flex flex-col h-full"
             >
               {/* Badge */}
-              <span className={`absolute top-[1.5rem] left-[1.5rem] ${product.badgeColor} px-[12px] py-[5px] rounded-[20px] text-[0.7rem] font-bold text-white z-10 shadow-sm`}>
-                {product.badge}
+              <span className={`absolute top-[1.5rem] left-[1.5rem] ${currentVariant.badgeColor} px-[12px] py-[5px] rounded-[20px] text-[0.7rem] font-bold text-white z-10 shadow-sm`}>
+                {currentVariant.badge}
               </span>
 
               {/* Added to Cart Counter Badge */}
@@ -131,26 +153,45 @@ export function Products() {
               
               {/* Image */}
               <img 
-                src={product.image} 
-                alt={product.name} 
+                src={currentVariant.image} 
+                alt={currentVariant.name} 
                 className="w-full aspect-square lg:h-[200px] object-cover rounded-[16px] mb-[1.2rem] bg-[#f9f9f9]"
               />
               
               {/* Content */}
               <div className="text-[#7b9c66] text-[0.7rem] font-extrabold tracking-[0.1em] uppercase mb-[0.4rem]">
-                {categories.find(c => c.id === product.categoryId)?.name || 'Unknown'}
+                {categories.find(c => c.id === currentVariant.categoryId)?.name || 'Unknown'}
               </div>
               <h3 className="text-[1.1rem] lg:text-[1.2rem] font-extrabold text-forest mb-[0.4rem]">
-                {product.name}
+                {currentVariant.name}
               </h3>
-              <p className="text-[0.8rem] text-text-mid mb-[1.5rem] leading-relaxed">
-                {product.description}
+              <p className="text-[0.8rem] text-text-mid mb-[1.0rem] leading-relaxed line-clamp-2">
+                {currentVariant.description}
               </p>
+              
+              {/* Variant Selector */}
+              {variants.length > 1 && (
+                <div className="flex flex-wrap gap-[0.5rem] mb-[1rem]" onClick={(e) => e.stopPropagation()}>
+                  {variants.map(v => (
+                    <button
+                      key={v.id}
+                      onClick={() => setSelectedVariants(prev => ({ ...prev, [group.name]: v.id }))}
+                      className={`px-[12px] py-[6px] rounded-[16px] text-[0.75rem] font-bold border transition-colors cursor-pointer ${
+                        selectedVariantId === v.id 
+                          ? 'bg-[#c88d22] text-white border-[#c88d22]' 
+                          : 'bg-white text-text-mid border-[#ddd] hover:border-[#c88d22] hover:text-[#c88d22]'
+                      }`}
+                    >
+                      {v.unit.replace('/', '')}
+                    </button>
+                  ))}
+                </div>
+              )}
               
               {/* Price Row */}
               <div className="flex justify-between items-center mt-auto">
                 <span className="text-[1.1rem] font-extrabold text-[#c88d22]">
-                  {product.price} <span className="text-[0.75rem] font-medium text-text-mid">{product.unit}</span>
+                  {currentVariant.price} <span className="text-[0.75rem] font-medium text-text-mid">{currentVariant.unit}</span>
                 </span>
                 
                 {quantityInCart > 0 ? (
@@ -159,14 +200,14 @@ export function Products() {
                     onClick={(e) => e.stopPropagation()}
                   >
                     <button 
-                      onClick={() => updateQuantity(product.id, quantityInCart - 1)}
+                      onClick={() => updateQuantity(currentVariant.id, quantityInCart - 1)}
                       className="w-[28px] h-[28px] rounded-full bg-white shadow-sm flex items-center justify-center text-forest font-bold hover:bg-[#eee] transition-colors cursor-pointer border-none"
                     >
                       -
                     </button>
                     <span className="w-[20px] text-center font-bold text-[0.95rem] text-forest">{quantityInCart}</span>
                     <button 
-                      onClick={() => updateQuantity(product.id, quantityInCart + 1)}
+                      onClick={() => updateQuantity(currentVariant.id, quantityInCart + 1)}
                       className="w-[28px] h-[28px] rounded-full bg-white shadow-sm flex items-center justify-center text-forest font-bold hover:bg-[#eee] transition-colors cursor-pointer border-none"
                     >
                       +
@@ -176,8 +217,8 @@ export function Products() {
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
-                      addToCart(product, 1);
-                      toast.success(`Added ${product.name} to cart`);
+                      addToCart(currentVariant, 1);
+                      toast.success(`Added ${currentVariant.name} (${currentVariant.unit.replace('/', '')}) to cart`);
                     }}
                     className="bg-forest text-white px-[1rem] py-[0.5rem] rounded-[20px] flex justify-center items-center gap-[0.4rem] text-[0.85rem] font-bold border-none cursor-pointer transition-all duration-200 hover:bg-[#3a6326] shadow-sm"
                   >
@@ -197,6 +238,11 @@ export function Products() {
 
       <ProductModal 
         product={selectedProduct} 
+        variants={selectedProduct ? groupedProducts.find(g => g.name === selectedProduct.name)?.variants : undefined}
+        onVariantChange={(v) => {
+          setSelectedProduct(v);
+          setSelectedVariants(prev => ({ ...prev, [v.name]: v.id }));
+        }}
         categoryName={selectedProduct ? (categories.find(c => c.id === selectedProduct.categoryId)?.name || 'Unknown') : undefined}
         onClose={() => setSelectedProduct(null)} 
       />

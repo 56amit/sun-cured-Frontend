@@ -1,6 +1,6 @@
 export function WhyUs() {
   return (
-    <section className="bg-cream py-[80px] lg:py-[120px] px-[5%] lg:px-[8%]" id="why-us">
+    <section className="bg-cream pt-[80px] lg:pt-[120px] pb-[40px] lg:pb-[60px] px-[5%] lg:px-[8%]" id="why-us">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem] items-center">
         
         {/* Left Text */}
