@@ -65,30 +65,18 @@ export function Products() {
   return (
     <section className="bg-cream py-[40px] lg:py-[60px] px-[5%] lg:px-[8%]" id="products">
       
-      {/* Header & Tabs */}
-      <div className="flex flex-col mb-[2rem]">
-        {/* Tabs moved above */}
-        <CategoryCards 
-          categories={categories}
-          activeTab={activeTab}
-          setActiveTab={handleCategorySelect}
-          loading={loading}
-        />
-        
-
-        
-        <div>
-          <span className="inline-block text-[#7b9c66] text-[0.85rem] font-bold tracking-[0.12em] uppercase mb-[0.8rem]">
-            OUR PRODUCTS
-          </span>
-          <h2 className="font-heading text-[clamp(2.2rem,4vw,3.8rem)] font-black text-forest leading-[1.1]">
-            Sun-Dried.<br/>Solar Powered.
-          </h2>
-        </div>
+      {/* Header Text */}
+      <div className="mb-[2rem]">
+        <span className="inline-block text-[#7b9c66] text-[0.85rem] font-bold tracking-[0.12em] uppercase mb-[0.8rem]">
+          OUR PRODUCTS
+        </span>
+        <h2 className="font-heading text-[clamp(2.2rem,4vw,3.8rem)] font-black text-forest leading-[1.1]">
+          Sun-Dried.<br/>Solar Powered.
+        </h2>
       </div>
 
       {/* Sticky Search Bar */}
-      <div className="sticky top-[70px] z-30 bg-cream py-[15px] flex justify-center mb-[2rem] border-b border-[#eee]">
+      <div className="sticky top-[100px] z-30 bg-cream py-[15px] flex justify-center mb-[2rem] border-b border-[#eee]">
         <div className="relative w-full max-w-[700px]">
           <input 
             type="text" 
@@ -102,6 +90,16 @@ export function Products() {
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </div>
+      </div>
+
+      {/* Categories */}
+      <div className="mb-[2rem]">
+        <CategoryCards 
+          categories={categories}
+          activeTab={activeTab}
+          setActiveTab={handleCategorySelect}
+          loading={loading}
+        />
       </div>
 
       {/* Products Grid */}

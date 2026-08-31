@@ -1,7 +1,7 @@
 export function Founder() {
   return (
     <section className="bg-white py-[100px] lg:py-[120px] px-[5%] lg:px-[8%]" id="founder">
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-[4rem] items-center">
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-[4rem] items-start">
         
         {/* Left: Image & Quote */}
         <div className="lg:col-span-5 flex flex-col gap-[2rem]">
