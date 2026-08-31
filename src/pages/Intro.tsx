@@ -51,8 +51,8 @@ export function Intro() {
               </li>
             </ul>
           </div>
-          <div className="relative h-full min-h-[400px] rounded-[16px] overflow-hidden shadow-lg">
-            <img src="/why-us.png" alt="Sun Dried Products" className="w-full h-full object-cover absolute inset-0" />
+          <div className="rounded-[16px] overflow-hidden shadow-lg flex items-center justify-center">
+            <img src="/why-us.png" alt="Sun Dried Products" className="w-full h-auto block" />
           </div>
         </div>
       </div>

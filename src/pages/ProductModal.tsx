@@ -79,7 +79,7 @@ export function ProductModal({ product, variants = [], categoryName = 'Unknown',
           <img 
             src={product.image} 
             alt={product.name} 
-            className="w-full h-auto max-h-[300px] object-cover rounded-[16px] drop-shadow-md"
+            className="w-full h-[300px] lg:h-[400px] object-contain rounded-[16px] drop-shadow-md p-[10px]"
           />
         </div>
 

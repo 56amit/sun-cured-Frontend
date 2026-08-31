@@ -155,7 +155,7 @@ export function Products() {
               <img 
                 src={currentVariant.image} 
                 alt={currentVariant.name} 
-                className="w-full aspect-square lg:h-[200px] object-cover rounded-[16px] mb-[1.2rem] bg-[#f9f9f9]"
+                className="w-full aspect-square lg:h-[200px] object-contain rounded-[16px] mb-[1.2rem] bg-[#f9f9f9] p-[10px]"
               />
               
               {/* Content */}
