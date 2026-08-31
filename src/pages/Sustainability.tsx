@@ -22,7 +22,7 @@ export function Sustainability() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem] mb-[6rem] items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem] mb-[6rem] items-start">
         {/* Female Leadership */}
         <div className="bg-white p-[3rem] rounded-[24px] shadow-lg border-l-[8px] border-[#7b9c66]">
           <h3 className="font-heading text-[2rem] font-extrabold text-forest mb-[1rem]">Driven by Female Leadership</h3>
@@ -34,20 +34,32 @@ export function Sustainability() {
           </p>
         </div>
 
-        {/* Vision & Mission */}
+        {/* Vision, Mission & Goals */}
         <div className="flex flex-col gap-[2rem]">
+          {/* Vision */}
           <div className="bg-forest text-white p-[2.5rem] rounded-[24px] shadow-lg">
             <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[0.8rem]">Our Vision</h3>
             <p className="text-[1.05rem] leading-relaxed opacity-90">
-              To eliminate post-harvest waste globally through clean solar engineering and female leadership, proving that economic growth can be 100% carbon-neutral.
+              To pioneer a climate-resilient food system that transforms seasonal harvests into pure, nutrient-dense nutrition for a healthier India(Swasth Bharat).
             </p>
           </div>
+          
+          {/* Mission */}
           <div className="bg-[#487c2f] text-white p-[2.5rem] rounded-[24px] shadow-lg">
             <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[0.8rem]">Our Mission</h3>
-            <ul className="list-disc list-inside text-[1.05rem] leading-relaxed opacity-90 flex flex-col gap-[0.5rem]">
-              <li><strong>Deploy Science:</strong> Applied advanced solar thermal dynamics.</li>
-              <li><strong>Empower Locally:</strong> Created structural financial independence for local women.</li>
-              <li><strong>Mitigate Carbon:</strong> Eradicated fossil fuels from food processing.</li>
+            <p className="text-[1.05rem] leading-relaxed opacity-90">
+              Sun-Cure Savories combats post-harvest loss by using zero-emission solar thermal drying to upgrade surplus crops into premium, zero-waste provisions.
+            </p>
+          </div>
+
+          {/* Goals */}
+          <div className="bg-[#3a6326] text-white p-[2.5rem] rounded-[24px] shadow-lg">
+            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[1.2rem]">Our Goals</h3>
+            <ul className="flex flex-col gap-[1rem] text-[0.95rem] leading-relaxed opacity-90">
+              <li><strong>Empower Regional Farmers:</strong> Partner directly with local growers to capture seasonal crop overflows, turning potential waste into high-value income.</li>
+              <li><strong>Advance Clean Processing:</strong> Power 100% of drying operations with direct solar thermal energy, bypassing carbon-heavy fuels.</li>
+              <li><strong>Nurture a Healthy Nation:</strong> Deliver affordable, nutrient-rich, clean-label foods that support everyday wellness across India.</li>
+              <li><strong>Champion Inclusive Leadership:</strong> Maintain an operational and leadership team that promotes equitable employment.</li>
             </ul>
           </div>
         </div>
