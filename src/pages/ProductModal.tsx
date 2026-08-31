@@ -5,11 +5,13 @@ import { toast } from 'sonner';
 
 interface ProductModalProps {
   product: UIProduct | null;
+  variants?: UIProduct[];
   categoryName?: string;
   onClose: () => void;
+  onVariantChange?: (variant: UIProduct) => void;
 }
 
-export function ProductModal({ product, categoryName = 'Unknown', onClose }: ProductModalProps) {
+export function ProductModal({ product, variants = [], categoryName = 'Unknown', onClose, onVariantChange }: ProductModalProps) {
   const [quantity, setQuantity] = useState(1);
   const addToCart = useCartStore(state => state.addToCart);
 
@@ -89,6 +91,24 @@ export function ProductModal({ product, categoryName = 'Unknown', onClose }: Pro
           <h2 className="font-heading text-[1.8rem] lg:text-[2.2rem] font-black text-forest leading-[1.2] mb-[1rem]">
             {product.name}
           </h2>
+          
+          {variants.length > 1 && (
+            <div className="flex flex-wrap gap-[0.5rem] mb-[1rem]">
+              {variants.map(v => (
+                <button
+                  key={v.id}
+                  onClick={() => onVariantChange?.(v)}
+                  className={`px-[16px] py-[8px] rounded-[20px] text-[0.85rem] font-bold border transition-colors cursor-pointer ${
+                    product.id === v.id 
+                      ? 'bg-[#c88d22] text-white border-[#c88d22]' 
+                      : 'bg-white text-text-mid border-[#ddd] hover:border-[#c88d22] hover:text-[#c88d22]'
+                  }`}
+                >
+                  {v.unit.replace('/', '')}
+                </button>
+              ))}
+            </div>
+          )}
           
           <div className="text-[1.5rem] font-extrabold text-[#c88d22] mb-[1.5rem]">
             {product.price} <span className="text-[1rem] font-medium text-text-mid">{product.unit}</span>

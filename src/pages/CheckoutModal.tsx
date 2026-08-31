@@ -32,7 +32,7 @@ export function CheckoutModal() {
   if (!isCheckoutOpen) return null;
 
   const subtotal = getCartTotal();
-  const shipping = 40;
+  const shipping = subtotal > 500 ? 0 : 50;
   const total = subtotal > 0 ? subtotal + shipping : 0;
 
   // Step 1: Collect customer info, go to step 2
@@ -237,7 +237,7 @@ export function CheckoutModal() {
               </div>
               <div className="flex flex-col gap-[0.7rem] border-t border-[#ddd] pt-[1.2rem]">
                 <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Subtotal</span><span className="font-semibold text-forest">₹{subtotal}</span></div>
-                <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Shipping</span><span className="font-semibold text-forest">₹40</span></div>
+                <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Shipping</span><span className="font-semibold text-forest">{shipping === 0 ? 'Free' : `₹${shipping}`}</span></div>
                 <div className="flex justify-between text-[1.15rem] font-black text-forest mt-[0.3rem] pt-[0.8rem] border-t border-[#ddd]"><span>Total</span><span>₹{total}</span></div>
               </div>
             </div>
@@ -336,7 +336,7 @@ export function CheckoutModal() {
               </div>
               <div className="flex flex-col gap-[0.7rem] border-t border-[#ddd] pt-[1.2rem]">
                 <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Subtotal</span><span className="font-semibold text-forest">₹{subtotal}</span></div>
-                <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Shipping</span><span className="font-semibold text-forest">₹40</span></div>
+                <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Shipping</span><span className="font-semibold text-forest">{shipping === 0 ? 'Free' : `₹${shipping}`}</span></div>
                 <div className="flex justify-between text-[1.15rem] font-black text-forest mt-[0.3rem] pt-[0.8rem] border-t border-[#ddd]"><span>Total</span><span>₹{total}</span></div>
               </div>
 
