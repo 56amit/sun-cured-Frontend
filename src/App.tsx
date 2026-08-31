@@ -2,6 +2,7 @@
 import { Navbar } from './pages/Navbar'
 import { Hero } from './pages/Hero'
 import { Intro } from './pages/Intro'
+import { WhyUs } from './pages/WhyUs'
 import { AboutUs } from './pages/AboutUs'
 import { Products } from './pages/Products'
 import { Benefits } from './pages/Benefits'
@@ -32,6 +33,7 @@ export default function App() {
       <main>
         <Hero />
         <Intro />
+        <WhyUs />
         <AboutUs />
         <Products />
         <Benefits />
