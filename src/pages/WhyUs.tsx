@@ -59,11 +59,11 @@ export function WhyUs() {
         </div>
 
         {/* Right Image */}
-        <div className="rounded-[24px] overflow-hidden relative shadow-[0_16px_50px_rgba(45,80,22,0.14)] bg-[#fdfaf1]">
+        <div className="rounded-[24px] overflow-hidden relative shadow-[0_16px_50px_rgba(45,80,22,0.14)] bg-[#fdfaf1] self-stretch flex items-center">
           <img 
             src="/why-us.png" 
             alt="Aam Panna Preparation" 
-            className="w-full h-auto block"
+            className="w-full h-full object-contain block"
           />
           <div className="absolute bottom-[20px] left-[20px] bg-forest text-white px-[18px] py-[10px] rounded-[12px] text-[0.78rem] font-bold shadow-lg z-10">
             Aam Panna Preparation

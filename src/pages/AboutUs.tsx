@@ -1,9 +1,9 @@
 export function AboutUs() {
   return (
-    <section className="bg-cream pt-[40px] lg:pt-[60px] pb-[80px] lg:pb-[120px] px-[5%] lg:px-[8%]" id="about-us">
+    <section className="bg-cream pt-[40px] lg:pt-[60px] pb-[40px] lg:pb-[60px] px-[5%] lg:px-[8%]" id="about-us">
       
       {/* Top Header Section */}
-      <div className="max-w-[1000px] mx-auto text-center mb-[4rem]">
+      <div className="max-w-[1000px] mx-auto text-center mb-[2.5rem]">
         <span className="inline-block text-sun text-[0.85rem] font-bold tracking-[0.15em] uppercase mb-[0.8rem]">
           Our Story
         </span>
@@ -13,40 +13,6 @@ export function AboutUs() {
         <p className="text-[1.2rem] text-text-mid leading-relaxed italic max-w-[800px] mx-auto">
           "We started Sun Cured Savories with a simple, unshakeable conviction: Nutritious, high-quality food is an essential human right, not a luxury."
         </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem] items-start mb-[5rem]">
-        
-        {/* Vision */}
-        <div className="bg-white p-[2.5rem] rounded-[24px] shadow-sm border border-[#487c2f1f]">
-          <span className="inline-block text-[#c88d22] text-[0.85rem] font-bold tracking-[0.15em] uppercase mb-[0.8rem]">
-            Our Vision
-          </span>
-          <h3 className="font-heading text-[2rem] font-black text-forest mb-[1.2rem] leading-[1.2]">
-            A Healthier India<br/>(Swasth Bharat)
-          </h3>
-          <div className="text-[1.05rem] text-text-mid leading-[1.8]">
-            <p>
-              To pioneer a climate-resilient food system that transforms seasonal harvests into pure, nutrient-dense nutrition for a healthier India.
-            </p>
-          </div>
-        </div>
-
-        {/* Mission */}
-        <div className="bg-[#fdfaf1] p-[2.5rem] rounded-[24px] shadow-sm border border-sun/20">
-          <span className="inline-block text-[#c88d22] text-[0.85rem] font-bold tracking-[0.15em] uppercase mb-[0.8rem]">
-            Our Mission
-          </span>
-          <h3 className="font-heading text-[2rem] font-black text-forest mb-[1.2rem] leading-[1.2]">
-            Zero-Emission,<br/>Zero-Waste
-          </h3>
-          <div className="text-[1.05rem] text-text-mid leading-[1.8]">
-            <p>
-              Sun-Cured Savories combats post-harvest loss by using zero-emission solar thermal drying to upgrade surplus crops into premium, zero-waste provisions.
-            </p>
-          </div>
-        </div>
-
       </div>
 
       {/* Goals */}

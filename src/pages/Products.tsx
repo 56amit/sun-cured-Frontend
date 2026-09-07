@@ -81,7 +81,7 @@ export function Products() {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string | number>>({});
 
   return (
-    <section className="bg-cream py-[40px] lg:py-[60px] px-[5%] lg:px-[8%]" id="products">
+    <section className="bg-cream pt-[20px] lg:pt-[30px] pb-[40px] lg:pb-[60px] px-[5%] lg:px-[8%]" id="products">
       
       {/* Header Text */}
       <div className="mb-[2rem]">

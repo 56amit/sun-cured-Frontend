@@ -1,6 +1,6 @@
 export function Intro() {
   return (
-    <section className="bg-white py-[100px] lg:py-[120px] px-[5%] lg:px-[8%]">
+    <section className="bg-white pt-[40px] lg:pt-[60px] pb-[60px] lg:pb-[80px] px-[5%] lg:px-[8%]">
       
       {/* Intro Paragraph */}
       <div className="max-w-[1000px] mx-auto text-center mb-[5rem]">

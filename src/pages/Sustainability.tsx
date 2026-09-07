@@ -38,7 +38,7 @@ export function Sustainability() {
         <div className="flex flex-col gap-[2rem]">
           {/* Vision */}
           <div className="bg-forest text-white p-[2.5rem] rounded-[24px] shadow-lg">
-            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[0.8rem]">Our Vision</h3>
+            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[0.8rem]">Our Vision — A Healthier India (Swasth Bharat)</h3>
             <p className="text-[1.05rem] leading-relaxed opacity-90">
               To pioneer a climate-resilient food system that transforms seasonal harvests into pure, nutrient-dense nutrition for a healthier India(Swasth Bharat).
             </p>
@@ -46,7 +46,7 @@ export function Sustainability() {
           
           {/* Mission */}
           <div className="bg-[#487c2f] text-white p-[2.5rem] rounded-[24px] shadow-lg">
-            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[0.8rem]">Our Mission</h3>
+            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[0.8rem]">Our Mission — Zero-Emission, Zero-Waste</h3>
             <p className="text-[1.05rem] leading-relaxed opacity-90">
               Sun-Cure Savories combats post-harvest loss by using zero-emission solar thermal drying to upgrade surplus crops into premium, zero-waste provisions.
             </p>
