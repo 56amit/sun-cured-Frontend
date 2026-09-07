@@ -5,12 +5,10 @@ export function Founder() {
         
         {/* Left: Image & Quote */}
         <div className="lg:col-span-5 flex flex-col gap-[2rem]">
-          <div className="relative rounded-[24px] overflow-hidden shadow-2xl bg-[#fdfaf1] aspect-[4/5] border-[8px] border-[#f0ece1]">
-            <img 
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" 
-              alt="Dr. Baby Pallavi" 
-              className="w-full h-full object-cover"
-            />
+          <div className="relative rounded-[24px] overflow-hidden shadow-2xl bg-[#fdfaf1] aspect-[4/5] border-[8px] border-[#f0ece1] flex flex-col items-center justify-center gap-[1rem]">
+            {/* Placeholder - Image Coming Soon */}
+            <div className="text-[4rem] opacity-30">📷</div>
+            <p className="text-forest/40 font-bold text-[0.9rem] uppercase tracking-widest">Photo Coming Soon</p>
             <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-[2rem] pt-[4rem]">
               <h3 className="text-white font-heading text-[1.8rem] font-black">Dr. B. Pallavi</h3>
               <p className="text-[#c88d22] font-bold text-[1rem]">Founder & Proprietor</p>

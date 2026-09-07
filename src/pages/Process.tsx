@@ -62,9 +62,9 @@ export function Process() {
         {/* Right Side: Image */}
         <div className="w-full relative">
           <img 
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=800&auto=format&fit=crop" 
+            src="/process.png" 
             alt="Solar Drying Process" 
-            className="w-full h-auto aspect-[4/3] lg:aspect-[4/5] object-cover rounded-[24px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] bg-[#fdfaf1]"
+            className="w-full h-auto object-contain rounded-[24px] shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
           />
           {/* Sparkle Icon */}
           <div className="absolute bottom-[2rem] right-[2rem] text-white opacity-80 pointer-events-none">

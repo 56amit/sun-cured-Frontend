@@ -81,7 +81,7 @@ export function Footer() {
           <div>
             <h4 className="text-[1rem] font-bold text-white mb-[1.5rem] uppercase tracking-[0.1em]">Contact</h4>
             <ul className="flex flex-col gap-[1rem]">
-              <li><a href="mailto:pallavi.tuat@gmail.com" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">📧 pallavi.tuat@gmail.com</a></li>
+              <li><a href="mailto:suncuredsavories@gmail.com" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">📧 suncuredsavories@gmail.com</a></li>
               <li><a href="tel:+918796446551" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">📞 +91 87964 46551</a></li>
               <li><a href="#" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">📍 India</a></li>
               <li><a href="#" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">🌐 suncuredsavories.com</a></li>
