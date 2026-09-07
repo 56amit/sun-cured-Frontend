@@ -83,7 +83,7 @@ export function Footer() {
             <ul className="flex flex-col gap-[1rem]">
               <li><a href="mailto:suncuredsavories@gmail.com" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">📧 suncuredsavories@gmail.com</a></li>
               <li><a href="tel:+918796446551" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">📞 +91 87964 46551</a></li>
-              <li className="flex items-start gap-[0.5rem]"><span className="mt-[2px]">📍</span><span className="text-[0.9rem] text-white/70">C-7, 228, Sidco Shivalik, IMT, Sector-1, Manesar, Gurugram, Haryana - 122052</span></li>
+              <li className="flex items-start gap-[0.5rem]"><span className="mt-[2px]">📍</span><span className="text-[0.9rem] text-white/70">Plot no. 73, Shiva Enclave, Part-1, Garhi Harsaru, Gurgaon - 122052, Haryana</span></li>
               <li><a href="#" className="text-[0.9rem] text-white/70 hover:text-[#c88d22] transition-colors duration-200">🌐 suncuredsavories.com</a></li>
             </ul>
             {/* Legal Info */}
