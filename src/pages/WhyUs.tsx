@@ -1,7 +1,7 @@
 export function WhyUs() {
   return (
     <section className="bg-cream pt-[80px] lg:pt-[120px] pb-[40px] lg:pb-[60px] px-[5%] lg:px-[8%]" id="why-us">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem] items-center">
+      <div className="max-w-[900px] mx-auto">
         
         {/* Left Text */}
         <div>
@@ -58,17 +58,7 @@ export function WhyUs() {
           </div>
         </div>
 
-        {/* Right Image */}
-        <div className="rounded-[24px] overflow-hidden relative shadow-[0_16px_50px_rgba(45,80,22,0.14)] bg-[#fdfaf1] self-stretch flex items-center">
-          <img 
-            src="/why-us.png" 
-            alt="Aam Panna Preparation" 
-            className="w-full h-full object-contain block"
-          />
-          <div className="absolute bottom-[20px] left-[20px] bg-forest text-white px-[18px] py-[10px] rounded-[12px] text-[0.78rem] font-bold shadow-lg z-10">
-            Aam Panna Preparation
-          </div>
-        </div>
+
 
       </div>
     </section>

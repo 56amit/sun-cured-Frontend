@@ -14,7 +14,7 @@ export function Intro() {
 
       {/* Why Sun Cured? */}
       <div className="bg-[#fdfaf1] rounded-[24px] p-[3rem] lg:p-[4rem] mb-[5rem] shadow-sm border border-sun/20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem] items-center">
+        <div className="grid grid-cols-1 gap-[4rem]">
           <div>
             <h3 className="font-heading text-[2.5rem] font-black text-forest mb-[1.5rem]">Why Sun Cured?</h3>
             <p className="text-[1.05rem] text-text-mid leading-relaxed mb-[2rem]">
@@ -50,9 +50,6 @@ export function Intro() {
                 </div>
               </li>
             </ul>
-          </div>
-          <div className="rounded-[16px] overflow-hidden shadow-lg flex items-center justify-center">
-            <img src="/why-us.png" alt="Sun Dried Products" className="w-full h-auto block" />
           </div>
         </div>
       </div>
