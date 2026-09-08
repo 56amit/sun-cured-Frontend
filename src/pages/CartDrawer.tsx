@@ -44,7 +44,8 @@ export function CartDrawer() {
             </div>
           ) : (
             items.map((item) => {
-              const priceNum = parseInt(item.price.replace(/[^\d]/g, ''), 10) || 0;
+              const priceNum = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+              const itemTotal = (priceNum * item.quantity).toFixed(2).replace(/\.00$/, '');
               return (
                 <div key={item.id} className="flex gap-[1rem] border border-[#eee] rounded-[16px] p-[10px] items-center bg-white">
                   <img src={item.image} alt={item.name} className="w-[70px] h-[70px] object-cover rounded-[10px] bg-[#f9f9f9]" />
@@ -52,7 +53,7 @@ export function CartDrawer() {
                   <div className="flex-1">
                     <h4 className="font-bold text-forest text-[0.95rem] leading-tight mb-[0.2rem]">{item.name}</h4>
                     <div className="text-[#c88d22] font-extrabold text-[0.9rem] mb-[0.5rem]">
-                      ₹{priceNum * item.quantity}
+                      ₹{itemTotal}
                     </div>
                     
                     <div className="flex items-center gap-[0.8rem] bg-[#f5f5f5] rounded-[20px] px-[8px] py-[4px] w-fit">

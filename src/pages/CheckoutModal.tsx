@@ -222,7 +222,8 @@ export function CheckoutModal() {
               <h3 className="text-[1.1rem] font-bold text-forest mb-[1.5rem]">Order Summary</h3>
               <div className="flex flex-col gap-[1rem] mb-[1.5rem] max-h-[280px] overflow-y-auto pr-[0.5rem]">
                 {items.map(item => {
-                  const priceNum = parseInt(item.price.replace(/[^\d]/g, ''), 10) || 0;
+                  const priceNum = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+                  const itemTotal = (priceNum * item.quantity).toFixed(2).replace(/\.00$/, '');
                   return (
                     <div key={item.id} className="flex gap-[1rem] items-center">
                       <div className="relative flex-shrink-0">
@@ -230,7 +231,7 @@ export function CheckoutModal() {
                         <span className="absolute -top-[5px] -right-[5px] bg-[#e69b24] text-white text-[0.65rem] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">{item.quantity}</span>
                       </div>
                       <div className="flex-1 min-w-0"><h4 className="font-bold text-forest text-[0.85rem] leading-tight truncate">{item.name}</h4></div>
-                      <div className="font-bold text-[#c88d22] flex-shrink-0">₹{priceNum * item.quantity}</div>
+                      <div className="font-bold text-[#c88d22] flex-shrink-0">₹{itemTotal}</div>
                     </div>
                   );
                 })}
@@ -321,7 +322,8 @@ export function CheckoutModal() {
               <h3 className="text-[1.1rem] font-bold text-forest mb-[1.5rem]">Order Summary</h3>
               <div className="flex flex-col gap-[1rem] mb-[1.5rem] max-h-[280px] overflow-y-auto pr-[0.5rem]">
                 {items.map(item => {
-                  const priceNum = parseInt(item.price.replace(/[^\d]/g, ''), 10) || 0;
+                  const priceNum = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+                  const itemTotal = (priceNum * item.quantity).toFixed(2).replace(/\.00$/, '');
                   return (
                     <div key={item.id} className="flex gap-[1rem] items-center">
                       <div className="relative flex-shrink-0">
@@ -329,7 +331,7 @@ export function CheckoutModal() {
                         <span className="absolute -top-[5px] -right-[5px] bg-[#e69b24] text-white text-[0.65rem] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">{item.quantity}</span>
                       </div>
                       <div className="flex-1 min-w-0"><h4 className="font-bold text-forest text-[0.85rem] leading-tight truncate">{item.name}</h4></div>
-                      <div className="font-bold text-[#c88d22] flex-shrink-0">₹{priceNum * item.quantity}</div>
+                      <div className="font-bold text-[#c88d22] flex-shrink-0">₹{itemTotal}</div>
                     </div>
                   );
                 })}

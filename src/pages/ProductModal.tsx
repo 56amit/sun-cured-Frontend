@@ -33,10 +33,10 @@ export function ProductModal({ product, variants = [], categoryName = 'Unknown',
 
   if (!product) return null;
 
-  // Extract base price number (e.g., "₹199" -> 199)
-  const basePriceStr = product.price.replace(/[^\d]/g, '');
-  const basePrice = parseInt(basePriceStr, 10) || 0;
-  const totalPrice = basePrice * quantity;
+  // Extract base price number (e.g., "₹136.5" -> 136.5)
+  const basePriceStr = product.price.replace(/[^\d.]/g, '');
+  const basePrice = parseFloat(basePriceStr) || 0;
+  const totalPrice = (basePrice * quantity).toFixed(2).replace(/\.00$/, '');
 
   return (
     <div 

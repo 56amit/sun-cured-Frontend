@@ -63,11 +63,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
   clearCart: () => set({ items: [] }),
 
   getCartTotal: () => {
-    return get().items.reduce((total, item) => {
-      const priceStr = item.price.replace(/[^\d]/g, '');
-      const price = parseInt(priceStr, 10) || 0;
-      return total + (price * item.quantity);
+    const total = get().items.reduce((sum, item) => {
+      const priceStr = item.price.replace(/[^\d.]/g, '');
+      const price = parseFloat(priceStr) || 0;
+      return sum + (price * item.quantity);
     }, 0);
+    return Math.round(total * 100) / 100;
   },
 
   getCartCount: () => {
