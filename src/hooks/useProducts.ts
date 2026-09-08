@@ -18,14 +18,17 @@ export function useProducts() {
             ? p.variants
             : [{ id: p.id, productId: p.id, weight: p.weight || '100g', price: p.price }];
 
-          const formattedVariants = rawVariants.map(v => ({
-            id: v.id,
-            productId: v.productId || p.id,
-            weight: v.weight,
-            price: v.price,
-            formattedPrice: `₹${v.price}`,
-            unit: `/${v.weight}`,
-          }));
+          const formattedVariants = rawVariants.map(v => {
+            const cleanWeight = (v.weight || '100g').replace(/gm$/i, 'g').trim();
+            return {
+              id: v.id,
+              productId: v.productId || p.id,
+              weight: cleanWeight,
+              price: v.price,
+              formattedPrice: `₹${v.price}`,
+              unit: `/${cleanWeight}`,
+            };
+          });
 
           const primaryVariant = formattedVariants[0];
 
