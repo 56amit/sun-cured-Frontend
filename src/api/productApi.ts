@@ -1,6 +1,14 @@
 import axiosClient from './axiosClient';
 
 // Interfaces
+export interface ProductVariant {
+  id: number;
+  productId: number;
+  weight: string;
+  price: number;
+  status?: string;
+}
+
 export interface ProductResponse {
   id: number;
   name: string;
@@ -11,6 +19,16 @@ export interface ProductResponse {
   weight?: string | null;
   img?: string | null;
   status: 'active' | 'inactive';
+  variants?: ProductVariant[];
+}
+
+export interface UIProductVariant {
+  id: string | number;
+  productId: string | number;
+  weight: string;
+  price: number;
+  formattedPrice: string;
+  unit: string;
 }
 
 // Mapped interface for Frontend UI
@@ -24,6 +42,7 @@ export interface UIProduct {
   badge: string;
   badgeColor: string;
   image: string;
+  variants: UIProductVariant[];
 }
 
 // Endpoints

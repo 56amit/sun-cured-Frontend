@@ -13,17 +13,35 @@ export function useProducts() {
         setLoading(true);
         const prodData = await fetchProducts();
 
-        const formattedProducts: UIProduct[] = prodData.map(p => ({
-          id: p.id,
-          name: p.name,
-          description: p.desc || 'No description available.',
-          price: `₹${p.price}`,
-          unit: p.weight ? `/${p.weight}` : '',
-          categoryId: p.catId,
-          badge: '🌿 Natural',
-          badgeColor: 'bg-forest',
-          image: p.img || `https://placehold.co/600x600/fdfaf1/487c2f?text=${encodeURIComponent(p.name)}`,
-        }));
+        const formattedProducts: UIProduct[] = prodData.map(p => {
+          const rawVariants = p.variants && p.variants.length > 0
+            ? p.variants
+            : [{ id: p.id, productId: p.id, weight: p.weight || '100g', price: p.price }];
+
+          const formattedVariants = rawVariants.map(v => ({
+            id: v.id,
+            productId: v.productId || p.id,
+            weight: v.weight,
+            price: v.price,
+            formattedPrice: `₹${v.price}`,
+            unit: `/${v.weight}`,
+          }));
+
+          const primaryVariant = formattedVariants[0];
+
+          return {
+            id: p.id,
+            name: p.name,
+            description: p.desc || 'No description available.',
+            price: primaryVariant.formattedPrice,
+            unit: primaryVariant.unit,
+            categoryId: p.catId,
+            badge: '🌿 Natural',
+            badgeColor: 'bg-forest',
+            image: p.img || `https://placehold.co/600x600/fdfaf1/487c2f?text=${encodeURIComponent(p.name)}`,
+            variants: formattedVariants,
+          };
+        });
 
         setProducts(formattedProducts);
       } catch (err: any) {
