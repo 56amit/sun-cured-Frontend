@@ -54,12 +54,24 @@ export function Sustainability() {
 
           {/* Goals */}
           <div className="bg-[#3a6326] text-white p-[2.5rem] rounded-[24px] shadow-lg">
-            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[1.2rem]">Our Goals</h3>
-            <ul className="flex flex-col gap-[1rem] text-[0.95rem] leading-relaxed opacity-90">
-              <li><strong>Empower Regional Farmers:</strong> Partner directly with local growers to capture seasonal crop overflows, turning potential waste into high-value income.</li>
-              <li><strong>Advance Clean Processing:</strong> Power 100% of drying operations with direct solar thermal energy, bypassing carbon-heavy fuels.</li>
-              <li><strong>Nurture a Healthy Nation:</strong> Deliver affordable, nutrient-rich, clean-label foods that support everyday wellness across India.</li>
-              <li><strong>Champion Inclusive Leadership:</strong> Maintain an operational and leadership team that promotes equitable employment.</li>
+            <h3 className="font-heading text-[1.8rem] font-extrabold text-sun mb-[1.5rem]">Our Goals</h3>
+            <ul className="flex flex-col gap-[1.4rem] text-[0.95rem] leading-relaxed">
+              <li className="flex flex-col gap-[0.3rem]">
+                <strong className="text-sun font-bold text-[1.05rem] block">Empower Regional Farmers:</strong>
+                <span className="opacity-90 block">Partner directly with local growers to capture seasonal crop overflows, turning potential waste into high-value income.</span>
+              </li>
+              <li className="flex flex-col gap-[0.3rem]">
+                <strong className="text-sun font-bold text-[1.05rem] block">Advance Clean Processing:</strong>
+                <span className="opacity-90 block">Power 100% of drying operations with direct solar thermal energy, bypassing carbon-heavy fuels.</span>
+              </li>
+              <li className="flex flex-col gap-[0.3rem]">
+                <strong className="text-sun font-bold text-[1.05rem] block">Nurture a Healthy Nation:</strong>
+                <span className="opacity-90 block">Deliver affordable, nutrient-rich, clean-label foods that support everyday wellness across India.</span>
+              </li>
+              <li className="flex flex-col gap-[0.3rem]">
+                <strong className="text-sun font-bold text-[1.05rem] block">Champion Inclusive Leadership:</strong>
+                <span className="opacity-90 block">Maintain an operational and leadership team that promotes equitable employment.</span>
+              </li>
             </ul>
           </div>
         </div>
