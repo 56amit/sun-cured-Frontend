@@ -51,7 +51,14 @@ export function CartDrawer() {
                   <img src={item.image} alt={item.name} className="w-[70px] h-[70px] object-cover rounded-[10px] bg-[#f9f9f9]" />
                   
                   <div className="flex-1">
-                    <h4 className="font-bold text-forest text-[0.95rem] leading-tight mb-[0.2rem]">{item.name}</h4>
+                    <h4 className="font-bold text-forest text-[0.95rem] leading-tight mb-[0.3rem]">
+                      {item.name}
+                      {item.unit && (
+                        <span className="text-[#c88d22] font-extrabold text-[0.75rem] ml-[6px] inline-block bg-[#fef8ec] px-[8px] py-[2px] rounded-[12px] border border-[#f5e3be]">
+                          {item.unit.replace('/', '').trim()}
+                        </span>
+                      )}
+                    </h4>
                     <div className="text-[#c88d22] font-extrabold text-[0.9rem] mb-[0.5rem]">
                       ₹{itemTotal}
                     </div>

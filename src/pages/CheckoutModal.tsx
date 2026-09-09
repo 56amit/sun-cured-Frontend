@@ -230,7 +230,14 @@ export function CheckoutModal() {
                         <img src={item.image} alt={item.name} className="w-[55px] h-[55px] object-cover rounded-[10px] bg-white border border-[#eee]" />
                         <span className="absolute -top-[5px] -right-[5px] bg-[#e69b24] text-white text-[0.65rem] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">{item.quantity}</span>
                       </div>
-                      <div className="flex-1 min-w-0"><h4 className="font-bold text-forest text-[0.85rem] leading-tight truncate">{item.name}</h4></div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-forest text-[0.85rem] leading-tight truncate">{item.name}</h4>
+                        {item.unit && (
+                          <span className="text-[#666] font-semibold text-[0.75rem] block mt-[1px]">
+                            Pack: {item.unit.replace('/', '').trim()}
+                          </span>
+                        )}
+                      </div>
                       <div className="font-bold text-[#c88d22] flex-shrink-0">₹{itemTotal}</div>
                     </div>
                   );
@@ -330,7 +337,14 @@ export function CheckoutModal() {
                         <img src={item.image} alt={item.name} className="w-[55px] h-[55px] object-cover rounded-[10px] bg-white border border-[#eee]" />
                         <span className="absolute -top-[5px] -right-[5px] bg-[#e69b24] text-white text-[0.65rem] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">{item.quantity}</span>
                       </div>
-                      <div className="flex-1 min-w-0"><h4 className="font-bold text-forest text-[0.85rem] leading-tight truncate">{item.name}</h4></div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-forest text-[0.85rem] leading-tight truncate">{item.name}</h4>
+                        {item.unit && (
+                          <span className="text-[#666] font-semibold text-[0.75rem] block mt-[1px]">
+                            Pack: {item.unit.replace('/', '').trim()}
+                          </span>
+                        )}
+                      </div>
                       <div className="font-bold text-[#c88d22] flex-shrink-0">₹{itemTotal}</div>
                     </div>
                   );

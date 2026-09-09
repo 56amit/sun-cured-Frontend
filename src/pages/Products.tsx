@@ -239,8 +239,10 @@ export function Products() {
 
       <ProductModal 
         product={selectedProduct} 
+        variants={selectedProduct?.variants}
         categoryName={selectedProduct ? (categories.find(c => c.id === selectedProduct.categoryId)?.name || 'Unknown') : undefined}
         onClose={() => setSelectedProduct(null)} 
+        onVariantChange={(v) => setSelectedProduct(prev => prev ? { ...prev, price: v.formattedPrice, unit: v.unit } : null)}
       />
     </section>
   );

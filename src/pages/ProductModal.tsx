@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import type { UIProduct } from '../api/productApi';
+import type { UIProduct, UIProductVariant } from '../api/productApi';
 import { useCartStore } from '../store/cartStore';
 import { toast } from 'sonner';
 
 interface ProductModalProps {
   product: UIProduct | null;
-  variants?: UIProduct[];
+  variants?: UIProductVariant[];
   categoryName?: string;
   onClose: () => void;
-  onVariantChange?: (variant: UIProduct) => void;
+  onVariantChange?: (variant: UIProductVariant) => void;
 }
 
 export function ProductModal({ product, variants = [], categoryName = 'Unknown', onClose, onVariantChange }: ProductModalProps) {
@@ -99,7 +99,7 @@ export function ProductModal({ product, variants = [], categoryName = 'Unknown',
                   key={v.id}
                   onClick={() => onVariantChange?.(v)}
                   className={`px-[16px] py-[8px] rounded-[20px] text-[0.85rem] font-bold border transition-colors cursor-pointer ${
-                    product.id === v.id 
+                    product.unit === v.unit 
                       ? 'bg-[#c88d22] text-white border-[#c88d22]' 
                       : 'bg-white text-text-mid border-[#ddd] hover:border-[#c88d22] hover:text-[#c88d22]'
                   }`}
@@ -141,7 +141,7 @@ export function ProductModal({ product, variants = [], categoryName = 'Unknown',
             <button 
               onClick={() => {
                 addToCart(product, quantity);
-                toast.success(`${quantity}x ${product.name} added to cart`);
+                toast.success(`${quantity}x ${product.name} (${product.unit.replace('/', '').trim()}) added to cart`);
                 onClose();
               }}
               className="w-full bg-forest text-white py-[1rem] rounded-[30px] flex justify-center items-center gap-[0.5rem] text-[1.1rem] font-extrabold border-none cursor-pointer transition-all duration-300 hover:bg-[#3a6326] hover:-translate-y-1 shadow-lg"
