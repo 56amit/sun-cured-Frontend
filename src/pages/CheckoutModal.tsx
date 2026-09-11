@@ -65,7 +65,15 @@ export function CheckoutModal() {
     const customer = customerRef.current;
     if (!customer) return toast.error('Please fill in your details first');
 
-    const cartItems = items.map(item => ({ productId: item.id, quantity: item.quantity }));
+    const cartItems = items.map(item => {
+      const priceNum = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+      return {
+        productId: item.id,
+        quantity: item.quantity,
+        price: priceNum,
+        unit: item.unit
+      };
+    });
     const orderData: any = { items: cartItems, paymentGateway: paymentMethod, customer, paymentDetails: {} };
 
     try {
