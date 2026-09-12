@@ -1,8 +1,35 @@
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/authStore';
-
+import { getMyOrders } from '../api/orderApi';
 
 export function UserProfileModal() {
-  const { user, orders, isProfileOpen, setProfileOpen, logout } = useAuthStore();
+  const { user, isProfileOpen, setProfileOpen, logout } = useAuthStore();
+  const [fetchedOrders, setFetchedOrders] = useState<any[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [orderError, setOrderError] = useState(false);
+
+  const fetchOrders = () => {
+    setLoadingOrders(true);
+    setOrderError(false);
+    getMyOrders()
+      .then((data) => {
+        const formatted = data.map((o: any) => ({
+          id: `ORD-${o.id}`,
+          date: new Date(o.createdAt).toLocaleDateString('en-IN'),
+          total: o.totalAmount,
+          status: o.status,
+        }));
+        setFetchedOrders(formatted);
+      })
+      .catch(() => setOrderError(true))
+      .finally(() => setLoadingOrders(false));
+  };
+
+  // Profile open hone par backend se fresh orders fetch karo
+  useEffect(() => {
+    if (!isProfileOpen || !user) return;
+    fetchOrders();
+  }, [isProfileOpen]);
 
   if (!isProfileOpen || !user) return null;
 
@@ -64,13 +91,24 @@ export function UserProfileModal() {
               Order History
             </h3>
             
-            {orders.length === 0 ? (
+            {loadingOrders ? (
+              <div className="text-center py-[2rem] bg-[#f9f9f9] rounded-[16px] border border-[#eee] text-text-mid">
+                Loading orders...
+              </div>
+            ) : orderError ? (
+              <div className="text-center py-[2rem] bg-[#fff5f5] rounded-[16px] border border-[#fcc] text-red-500">
+                <p className="mb-[0.8rem] text-[0.9rem]">Could not load orders. Please try again.</p>
+                <button onClick={fetchOrders} className="bg-forest text-white px-[1.2rem] py-[0.5rem] rounded-[20px] text-[0.85rem] font-bold border-none cursor-pointer hover:bg-[#3a6326]">
+                  Retry
+                </button>
+              </div>
+            ) : fetchedOrders.length === 0 ? (
               <div className="text-center py-[2rem] bg-[#f9f9f9] rounded-[16px] border border-[#eee] text-text-mid">
                 No orders yet.
               </div>
             ) : (
               <div className="flex flex-col gap-[1rem]">
-                {orders.map((order) => (
+                {fetchedOrders.map((order) => (
                   <div key={order.id} className="bg-white border border-[#eee] rounded-[16px] p-[1rem] flex items-center justify-between shadow-sm">
                     <div>
                       <div className="font-bold text-forest text-[0.9rem] mb-[0.2rem]">{order.id}</div>

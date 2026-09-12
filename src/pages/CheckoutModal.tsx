@@ -65,14 +65,15 @@ export function CheckoutModal() {
     if (items.length === 0) return toast.error('Your cart is empty');
     const customer = customerRef.current;
     if (!customer) return toast.error('Please fill in your details first');
-    if (isSubmitting) return; // Prevent double click
+    if (isSubmitting) return;
 
+    // Safe price parsing — handles both string ("₹136.50") and number (136.5)
     const cartItems = items.map(item => {
-      const priceNum = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+      const rawPrice = typeof item.price === 'number' ? item.price : parseFloat(String(item.price).replace(/[^\d.]/g, ''));
       return {
         productId: item.id,
         quantity: item.quantity,
-        price: priceNum,
+        price: isNaN(rawPrice) ? 0 : rawPrice,
         unit: item.unit
       };
     });
@@ -118,7 +119,9 @@ export function CheckoutModal() {
               const result = await createOrder(orderData);
               if (user) addOrder({ id: `ORD-${result.order.id}`, date: new Date().toLocaleDateString(), total: result.order.totalAmount, status: result.order.status });
             } catch (err: any) {
-              console.error('Background order save failed:', err.message);
+              console.error('Order save failed after payment:', err.message);
+              // Payment succeeded but order save failed — alert user to contact support
+              toast.error('Payment received! But order saving failed. Please contact us with your payment ID: ' + response.razorpay_payment_id);
             }
           },
           prefill: { name: customer.name, email: customer.email, contact: customer.phone },
