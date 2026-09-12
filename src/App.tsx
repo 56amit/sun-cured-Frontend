@@ -20,6 +20,8 @@ import { Toaster } from 'sonner'
 import { useEffect } from 'react'
 import { useAuthStore } from './store/authStore'
 
+import { FloatingCartBanner } from './components/FloatingCartBanner'
+
 export default function App() {
   const checkAuth = useAuthStore(state => state.checkAuth)
 
@@ -43,6 +45,7 @@ export default function App() {
         <Testimonials />
       </main>
       <Footer />
+      <FloatingCartBanner />
       <CartDrawer />
       <CheckoutModal />
       <AuthModal />

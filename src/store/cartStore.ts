@@ -36,12 +36,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
               ? { ...item, quantity: item.quantity + quantity }
               : item
           ),
-          isOpen: true // Automatically open cart when adding
+          // Cart will no longer open automatically
         };
       }
       return { 
         items: [...state.items, { ...product, quantity }],
-        isOpen: true
+        // Cart will no longer open automatically
       };
     });
   },

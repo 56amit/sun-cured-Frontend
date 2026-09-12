@@ -15,7 +15,14 @@ export function UserProfileModal() {
       .then((data) => {
         const formatted = data.map((o: any) => ({
           id: `ORD-${o.id}`,
-          date: new Date(o.createdAt).toLocaleDateString('en-IN'),
+          date: new Date(o.createdAt).toLocaleString('en-IN', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          }),
           total: o.totalAmount,
           status: o.status,
         }));
