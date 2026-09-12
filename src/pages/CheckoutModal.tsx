@@ -18,6 +18,7 @@ export function CheckoutModal() {
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'razorpay'>('razorpay');
   const [saveAddress, setSaveAddress] = useState(false);
   const customerRef = useRef<any>(null);
+  const orderSavedRef = useRef(false);
 
   // Load saved address from localStorage
   const savedAddr = (() => {
@@ -64,6 +65,7 @@ export function CheckoutModal() {
     if (items.length === 0) return toast.error('Your cart is empty');
     const customer = customerRef.current;
     if (!customer) return toast.error('Please fill in your details first');
+    if (isSubmitting) return; // Prevent double click
 
     const cartItems = items.map(item => {
       const priceNum = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
@@ -85,6 +87,7 @@ export function CheckoutModal() {
         clearCart();
         setStep(3);
       } else {
+        orderSavedRef.current = false; // Reset before new payment
         const razorpayOrder = await initiatePayment(cartItems);
 
         const options = {
@@ -97,6 +100,10 @@ export function CheckoutModal() {
           description: 'Online Payment',
           order_id: razorpayOrder.razorpayOrderId,
           handler: async function (response: any) {
+            // Guard: Ensure createOrder (and email) is called only ONCE
+            if (orderSavedRef.current) return;
+            orderSavedRef.current = true;
+
             // Optimistic UI — show success immediately
             clearCart();
             setStep(3);
