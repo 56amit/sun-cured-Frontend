@@ -30,7 +30,7 @@ export function Hero() {
             <a href="#products">Explore Our Collection</a>
           </Button>
           <Button asChild variant="outline" className="border-[2px] border-white/40 text-white bg-transparent px-[26px] py-[12px] rounded-[30px] font-bold text-[0.95rem] transition-all duration-250 backdrop-blur-[4px] hover:border-white hover:bg-white/10 hover:-translate-y-[2px] h-auto">
-            <a href="#about-us">Learn Our Story</a>
+            <a href="#products">Order Now 🛒</a>
           </Button>
         </div>
         
