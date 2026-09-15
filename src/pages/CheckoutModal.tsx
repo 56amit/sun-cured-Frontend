@@ -92,9 +92,9 @@ export function CheckoutModal() {
         const razorpayOrder = await initiatePayment(cartItems);
 
         const options = {
-          key: import.meta.env.VITE_NODE_ENV === 'production'
+          key: razorpayOrder.key_id || (import.meta.env.VITE_NODE_ENV === 'production'
             ? import.meta.env.VITE_RAZORPAY_KEY_ID_LIVE
-            : import.meta.env.VITE_RAZORPAY_KEY_ID_TEST,
+            : import.meta.env.VITE_RAZORPAY_KEY_ID_TEST),
           amount: razorpayOrder.amount,
           currency: razorpayOrder.currency,
           name: 'Sun Cured Savories',
@@ -124,7 +124,11 @@ export function CheckoutModal() {
               toast.error('Payment received! But order saving failed. Please contact us with your payment ID: ' + response.razorpay_payment_id);
             }
           },
-          prefill: { name: customer.name, email: customer.email, contact: customer.phone },
+          prefill: {
+            name: customer.name,
+            email: customer.email,
+            contact: customer.phone ? customer.phone.replace(/[^\d]/g, '') : ''
+          },
           theme: { color: '#2d5016' },
         };
 
@@ -303,15 +307,16 @@ export function CheckoutModal() {
               <label className={`flex items-start gap-[1rem] p-[1.2rem] border-2 rounded-[14px] cursor-pointer transition-all mb-[0.8rem] ${paymentMethod === 'razorpay' ? 'border-forest bg-[#f0f7ea]' : 'border-[#ddd] bg-white hover:border-forest/40'}`}>
                 <input type="radio" name="pm" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod('razorpay')} className="w-[18px] h-[18px] accent-forest mt-[2px]" />
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-[0.4rem]">
+                  <div className="flex items-center gap-2 mb-[0.4rem] flex-wrap justify-between">
                     <span className="font-bold text-forest text-[0.95rem]">Pay Online</span>
-                    <div className="flex gap-[6px]">
+                    <div className="flex items-center gap-[6px]">
+                      <span className="bg-[#6b2575] text-[#ffd600] text-[0.62rem] font-black px-[6px] py-[2px] rounded-[4px] tracking-wide">PLUXEE</span>
+                      <span className="bg-[#00b9f1] text-white text-[0.6rem] font-bold px-[6px] py-[2px] rounded-[4px]">UPI</span>
                       <span className="bg-[#1a1f71] text-white text-[0.6rem] font-bold px-[6px] py-[2px] rounded-[4px]">VISA</span>
                       <span className="bg-[#eb001b] text-white text-[0.6rem] font-bold px-[6px] py-[2px] rounded-[4px]">MC</span>
-                      <span className="bg-[#00b9f1] text-white text-[0.6rem] font-bold px-[6px] py-[2px] rounded-[4px]">UPI</span>
                     </div>
                   </div>
-                  <p className="text-[0.82rem] text-[#666] m-0">Card, UPI, Netbanking, Wallet — Secured by Razorpay</p>
+                  <p className="text-[0.82rem] text-[#666] m-0">Pluxee/Sodexo, Cards, UPI, Netbanking &amp; Wallets — Secured by Razorpay</p>
                 </div>
               </label>
 
