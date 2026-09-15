@@ -27,7 +27,7 @@ export function Hero() {
         
         <div className="flex gap-[1rem] flex-wrap">
           <Button asChild className="bg-sun text-forest px-[30px] py-[14px] rounded-[30px] font-extrabold text-[0.95rem] transition-all duration-250 shadow-[0_4px_22px_rgba(232,160,32,0.45)] hover:shadow-[0_8px_32px_rgba(232,160,32,0.55)] hover:-translate-y-[2px] h-auto">
-            <a href="#products">Explore Our Collection</a>
+            <a href="#process">Explore Our Collection</a>
           </Button>
           <Button asChild variant="outline" className="border-[2px] border-white/40 text-white bg-transparent px-[26px] py-[12px] rounded-[30px] font-bold text-[0.95rem] transition-all duration-250 backdrop-blur-[4px] hover:border-white hover:bg-white/10 hover:-translate-y-[2px] h-auto">
             <a href="#products">Order Now 🛒</a>
