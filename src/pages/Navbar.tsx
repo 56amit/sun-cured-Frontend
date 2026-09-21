@@ -84,7 +84,7 @@ export function Navbar() {
         </li>
         <li>
           <Button asChild className="bg-forest text-white rounded-full px-[22px] py-[9px] hover:bg-olive transition-colors h-auto font-bold shadow-none">
-            <a href="#contact">Order Now</a>
+            <a href="#products">Order Now</a>
           </Button>
         </li>
       </ul>
@@ -141,7 +141,7 @@ export function Navbar() {
                 </button>
               )}
               <a
-                href="#contact"
+                href="#products"
                 onClick={() => setIsOpen(false)}
                 className="text-forest font-black text-lg py-3 border-b border-olive/10 no-underline"
               >

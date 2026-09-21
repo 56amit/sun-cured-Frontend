@@ -1,6 +1,6 @@
 export function Founder() {
   return (
-    <section className="bg-white py-[100px] lg:py-[120px] px-[5%] lg:px-[8%]" id="founder">
+    <section className="bg-white pt-[80px] pb-[60px] lg:pt-[100px] lg:pb-[60px] px-[5%] lg:px-[8%]" id="founder">
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-[4rem] items-start">
         
         {/* Left: Image & Quote */}
@@ -10,7 +10,7 @@ export function Founder() {
             <div className="text-[4rem] opacity-30">📷</div>
             <p className="text-forest/40 font-bold text-[0.9rem] uppercase tracking-widest">Photo Coming Soon</p>
             <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-[2rem] pt-[4rem]">
-              <h3 className="text-white font-heading text-[1.8rem] font-black">Dr. B. Pallavi</h3>
+              <h3 className="text-white font-heading text-[1.8rem] font-black">Dr. (Mrs.) Baby Pallavi</h3>
               <p className="text-[#c88d22] font-bold text-[1rem]">Founder & Proprietor</p>
             </div>
           </div>
@@ -32,21 +32,15 @@ export function Founder() {
             Meet the Founder
           </h2>
           
-          <div className="flex flex-col gap-[1.2rem] text-[1.05rem] text-text-mid leading-[1.8]">
+          <div className="flex flex-col gap-[1.5rem] text-[1.02rem] text-text-mid leading-[1.8]">
             <p>
-              <strong>Dr. Baby Pallavi</strong> is a distinguished clean-tech food innovator and agricultural researcher who bridges the gap between deep-tech physics and sustainable food systems.
-            </p>
-            <p>
-              She holds an M.Sc. in Physics from B.R. Ambedkar Bihar University, Muzaffarpur, where she laid the groundwork for her career by exploring the mechanics of solar thermal applications. Advancing her passion for environmental sustainability, she earned her Ph.D. in Agricultural and Environmental Engineering from the Tokyo University of Agriculture and Technology (TUAT), Japan. 
+              <strong>Dr. (Mrs.) Baby Pallavi</strong> is a distinguished clean-tech food innovator and agricultural researcher who bridges the gap between deep-tech physics and sustainable food systems. She holds an M.Sc. in Physics from B.R. Ambedkar Bihar University, Muzaffarpur, where she laid the groundwork for her career by exploring the mechanics of solar thermal applications. Advancing her passion for environmental sustainability, she earned her Ph.D. in Agricultural and Environmental Engineering from the Tokyo University of Agriculture and Technology (TUAT), Japan.
             </p>
             <p>
               Her doctoral research specialized in high-precision hydro-geophysics, focused on mapping the subsurface soil moisture content of Japanese Andisols (Kanto Loam) using advanced Ground Penetrating Radar (GPR) technology.
             </p>
             <p>
-              Dr. Pallavi has now channeled her extensive expertise in thermal dynamics, soil science, and moisture management directly into the commercial space. She initiated her sustainable startup, <strong>Sun Cured Savories</strong>, setting up its operations hub in Garhi Harsaru, Gurugram, Haryana.
-            </p>
-            <p>
-              By pairing her scientific insights on optimal dehydration with a core philosophy of <em>“Itadakimasu”</em>, she has built a high-efficiency processing setup that preserves the earth’s natural energy while providing vital economic opportunities to local women.
+              Dr. (Mrs.) Baby Pallavi has now channeled her extensive expertise in thermal dynamics, soil science, and moisture management directly into the commercial space. She initiated her sustainable startup, <strong>Sun Cured Savories</strong>, setting up its operations hub in Garhi Harsaru, Gurugram, Haryana. By pairing her scientific insights on optimal dehydration with a core philosophy of <em>“Itadakimasu”</em>, she has built a high-efficiency processing setup that preserves the earth’s natural energy while providing vital economic opportunities to local women.
             </p>
           </div>
         </div>

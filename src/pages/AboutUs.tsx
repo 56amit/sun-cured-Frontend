@@ -17,7 +17,6 @@ export function AboutUs() {
 
       {/* Goals */}
       <div className="mb-[5rem]">
-        <h3 className="font-heading text-[2.5rem] font-black text-center text-forest mb-[3rem]">Our Goals</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[1.5rem]">
           {/* Goal 1 */}
           <div className="bg-white border-t-[6px] border-[#c88d22] rounded-[16px] p-[2rem] shadow-md hover:-translate-y-2 transition-transform duration-300">
