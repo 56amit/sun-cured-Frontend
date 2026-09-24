@@ -12,11 +12,6 @@ const getStatusStyle = (status: string) => {
   return { bg: 'bg-amber-100', text: 'text-amber-700' };
 };
 
-const getPaymentStyle = (status: string) => {
-  return (status || '').toLowerCase() === 'paid'
-    ? { bg: 'bg-green-100', text: 'text-green-700', label: '✅ Paid' }
-    : { bg: 'bg-orange-100', text: 'text-orange-600', label: '⏳ Pending' };
-};
 
 export function UserProfileModal() {
   const { user, isProfileOpen, setProfileOpen, logout } = useAuthStore();
@@ -151,11 +146,6 @@ export function UserProfileModal() {
                 {(() => { const s = getStatusStyle(selectedOrder.status); return (
                   <span className={`${s.bg} ${s.text} text-[0.72rem] font-extrabold px-[10px] py-[4px] rounded-[20px] uppercase`}>
                     {selectedOrder.status}
-                  </span>
-                ); })()}
-                {(() => { const p = getPaymentStyle(selectedOrder.paymentStatus); return (
-                  <span className={`${p.bg} ${p.text} text-[0.72rem] font-extrabold px-[10px] py-[4px] rounded-[20px]`}>
-                    {p.label}
                   </span>
                 ); })()}
               </div>
@@ -301,7 +291,6 @@ export function UserProfileModal() {
                   <div className="flex flex-col gap-[0.8rem]">
                     {fetchedOrders.map((order) => {
                       const statusStyle = getStatusStyle(order.status);
-                      const payStyle = getPaymentStyle(order.paymentStatus);
                       return (
                         <div
                           key={order.id}
@@ -318,13 +307,10 @@ export function UserProfileModal() {
                             </div>
                           </div>
 
-                          {/* Status badges */}
+                          {/* Status badge — only order status, no payment badge */}
                           <div className="flex flex-wrap items-center gap-[0.4rem] mb-[0.8rem]">
                             <span className={`${statusStyle.bg} ${statusStyle.text} text-[0.68rem] font-extrabold px-[8px] py-[3px] rounded-[12px] uppercase`}>
                               {order.status}
-                            </span>
-                            <span className={`${payStyle.bg} ${payStyle.text} text-[0.68rem] font-bold px-[8px] py-[3px] rounded-[12px]`}>
-                              {payStyle.label}
                             </span>
                           </div>
 
