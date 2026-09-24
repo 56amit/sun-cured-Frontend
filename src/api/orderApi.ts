@@ -4,6 +4,8 @@ import axiosClient from "./axiosClient";
 export interface OrderItemPayload {
   productId: string | number;
   quantity: number;
+  price?: number;
+  weight?: string;
 }
 
 export interface OrderPayload {
@@ -26,6 +28,33 @@ export interface OrderResponse {
     status: string;
     paymentStatus: string;
   };
+}
+
+export interface OrderDetailItem {
+  id: number;
+  productId: number;
+  name: string;
+  productName: string;
+  quantity: number;
+  priceAtPurchase: number;
+  taxAtPurchase: number;
+  weight?: string;
+  productImage?: string;
+}
+
+export interface OrderDetail {
+  id: number;
+  totalAmount: number;
+  taxAmount: number;
+  status: string;
+  paymentStatus: string;
+  paymentGateway: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  shippingAddress: string;
+  createdAt: string;
+  items: OrderDetailItem[];
 }
 
 // Endpoints
@@ -55,5 +84,10 @@ export const getMyOrders = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+  return data;
+};
+
+export const getOrderDetail = async (orderId: number): Promise<OrderDetail> => {
+  const { data } = await axiosClient.get<OrderDetail>(`/orders/detail/${orderId}`);
   return data;
 };
