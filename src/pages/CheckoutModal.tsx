@@ -5,10 +5,21 @@ import { toast } from 'sonner';
 import { createOrder } from '../api/orderApi';
 import { loadRazorpayScript } from '../utils/loadRazorpay';
 import { initiatePayment } from '../api/paymentApi';
+import axiosClient from '../api/axiosClient';
 
 const SAVED_ADDRESS_KEY = 'scs_saved_address';
 
 type Step = 1 | 2 | 3;
+
+interface ZoneResult {
+  serviceable: boolean;
+  zone?: { id: number; name: string; estimatedDays: string };
+  shippingCharge: number;
+  isFreeDelivery: boolean;
+  freeDeliveryAbove: number | null;
+  message?: string;
+  pincode: string;
+}
 
 export function CheckoutModal() {
   const { isCheckoutOpen, setIsCheckoutOpen, setIsOpen, items, getCartTotal, clearCart } = useCartStore();
@@ -20,6 +31,12 @@ export function CheckoutModal() {
   const customerRef = useRef<any>(null);
   const orderSavedRef = useRef(false);
 
+  // Pincode / Delivery Zone state
+  const [pincode, setPincode] = useState('');
+  const [zoneResult, setZoneResult] = useState<ZoneResult | null>(null);
+  const [checkingPincode, setCheckingPincode] = useState(false);
+  const pincodeCheckedRef = useRef('');
+
   // Load saved address from localStorage
   const savedAddr = (() => {
     try { return JSON.parse(localStorage.getItem(SAVED_ADDRESS_KEY) || 'null'); } catch { return null; }
@@ -30,30 +47,72 @@ export function CheckoutModal() {
     if (isCheckoutOpen) loadRazorpayScript();
   }, [isCheckoutOpen]);
 
+  // Pre-fill pincode from saved address
+  useEffect(() => {
+    if (isCheckoutOpen && savedAddr?.zip && !pincode) {
+      setPincode(savedAddr.zip);
+    }
+  }, [isCheckoutOpen]);
+
   if (!isCheckoutOpen) return null;
 
   const subtotal = getCartTotal();
-  const shipping = subtotal > 500 ? 0 : 50;
+  // Use zone API result if available, else 0 (don't guess shipping without zone check)
+  const shipping = zoneResult?.serviceable ? zoneResult.shippingCharge : 0;
   const total = subtotal > 0 ? subtotal + shipping : 0;
 
+  // Check pincode with backend (always pass latest subtotal)
+  const handlePincodeCheck = async (zip?: string, currentSubtotal?: number) => {
+    const pincodeToCheck = (zip || pincode).trim();
+    if (!pincodeToCheck || pincodeToCheck.length !== 6) return;
+    const sub = currentSubtotal !== undefined ? currentSubtotal : subtotal;
+    // Re-check if pincode or subtotal changed (subtotal affects free delivery)
+    if (pincodeCheckedRef.current === `${pincodeToCheck}-${sub}`) return;
+    setCheckingPincode(true);
+    setZoneResult(null);
+    try {
+      const { data } = await axiosClient.get<ZoneResult>(`/delivery-zones/check`, {
+        params: { pincode: pincodeToCheck, subtotal: sub },
+      });
+      setZoneResult(data);
+      pincodeCheckedRef.current = `${pincodeToCheck}-${sub}`;
+    } catch {
+      setZoneResult(null);
+    } finally {
+      setCheckingPincode(false);
+    }
+  };
+
   // Step 1: Collect customer info, go to step 2
-  const handleStep1Submit = (e: React.FormEvent) => {
+  const handleStep1Submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const zipVal = (formData.get('zip') as string).trim();
     const addressData = {
       street: formData.get('street') as string,
       apartment: formData.get('apartment') as string,
       city: formData.get('city') as string,
       state: formData.get('state') as string,
-      zip: formData.get('zip') as string,
+      zip: zipVal,
     };
+
+    // Always re-check pincode with current subtotal before proceeding
+    if (zipVal && zipVal.length === 6) {
+      await handlePincodeCheck(zipVal, subtotal);
+    }
+
+    // Block if pincode not serviceable
+    if (zoneResult && !zoneResult.serviceable) {
+      toast.error('Sorry! We do not deliver to this pincode yet.');
+      return;
+    }
+
     customerRef.current = {
       name: `${formData.get('firstName')} ${formData.get('lastName')}`,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
       address: `${addressData.street}, ${addressData.apartment ? addressData.apartment + ', ' : ''}${addressData.city}, ${addressData.state} - ${addressData.zip}`
     };
-    // Save address to localStorage if checkbox checked
     if (saveAddress) {
       localStorage.setItem(SAVED_ADDRESS_KEY, JSON.stringify(addressData));
     }
@@ -67,7 +126,6 @@ export function CheckoutModal() {
     if (!customer) return toast.error('Please fill in your details first');
     if (isSubmitting) return;
 
-    // Safe price parsing — handles both string ("₹136.50") and number (136.5)
     const cartItems = items.map(item => {
       const rawPrice = typeof item.price === 'number' ? item.price : parseFloat(String(item.price).replace(/[^\d.]/g, ''));
       return {
@@ -77,7 +135,15 @@ export function CheckoutModal() {
         unit: item.unit
       };
     });
-    const orderData: any = { items: cartItems, paymentGateway: paymentMethod, customer, paymentDetails: {} };
+
+    const orderData: any = {
+      items: cartItems,
+      paymentGateway: paymentMethod,
+      customer,
+      paymentDetails: {},
+      shippingCharge: shipping,
+      deliveryZone: zoneResult?.zone?.name || null,
+    };
 
     try {
       setIsSubmitting(true);
@@ -88,7 +154,7 @@ export function CheckoutModal() {
         clearCart();
         setStep(3);
       } else {
-        orderSavedRef.current = false; // Reset before new payment
+        orderSavedRef.current = false;
         const razorpayOrder = await initiatePayment(cartItems);
 
         const options = {
@@ -101,15 +167,10 @@ export function CheckoutModal() {
           description: 'Online Payment',
           order_id: razorpayOrder.razorpayOrderId,
           handler: async function (response: any) {
-            // Guard: Ensure createOrder (and email) is called only ONCE
             if (orderSavedRef.current) return;
             orderSavedRef.current = true;
-
-            // Optimistic UI — show success immediately
             clearCart();
             setStep(3);
-
-            // Save order in background
             try {
               orderData.paymentDetails = {
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -120,7 +181,6 @@ export function CheckoutModal() {
               if (user) addOrder({ id: `ORD-${result.order.id}`, date: new Date().toLocaleDateString(), total: result.order.totalAmount, status: result.order.status });
             } catch (err: any) {
               console.error('Order save failed after payment:', err.message);
-              // Payment succeeded but order save failed — alert user to contact support
               toast.error('Payment received! But order saving failed. Please contact us with your payment ID: ' + response.razorpay_payment_id);
             }
           },
@@ -148,6 +208,13 @@ export function CheckoutModal() {
   };
 
   const inputCls = 'px-[1rem] py-[0.85rem] rounded-[12px] border border-[#ddd] focus:border-forest focus:ring-1 focus:ring-forest outline-none transition-all text-[0.95rem] w-full';
+
+  // Shipping display
+  const shippingDisplay = zoneResult?.serviceable
+    ? zoneResult.isFreeDelivery
+      ? <span className="font-semibold text-green-600">Free 🎉</span>
+      : <span className="font-semibold text-forest">₹{zoneResult.shippingCharge}</span>
+    : <span className="font-semibold text-[#999]">Enter pincode</span>;
 
   return (
     <div className="fixed inset-0 z-[400] flex items-center justify-center p-[1rem] lg:p-[2rem]">
@@ -200,24 +267,68 @@ export function CheckoutModal() {
                   <div className="grid grid-cols-2 gap-[0.8rem]">
                     <input name="state" required defaultValue={savedAddr?.state || user?.state || ''} type="text" placeholder="State" className={inputCls} />
                     <input name="city" required defaultValue={savedAddr?.city || user?.city || ''} type="text" placeholder="City" className={inputCls} />
-                    <input
-                      name="zip"
-                      required
-                      defaultValue={savedAddr?.zip || user?.zip || ''}
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]{6}"
-                      maxLength={6}
-                      placeholder="Postal Code (6 digits)"
-                      className={`${inputCls} col-span-2`}
-                      onKeyDown={(e) => {
-                        if ([8, 9, 27, 13, 46, 37, 38, 39, 40].includes(e.keyCode)) return;
-                        if (!/[0-9]/.test(e.key)) e.preventDefault();
-                      }}
-                    />
+
+                    {/* ── Pincode with Live Check ── */}
+                    <div className="col-span-2">
+                      <div className="relative">
+                        <input
+                          name="zip"
+                          required
+                          value={pincode}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                            setPincode(val);
+                            pincodeCheckedRef.current = '';
+                            if (val.length < 6) {
+                              setZoneResult(null);
+                            } else {
+                              // Auto-check as soon as 6 digits entered
+                              handlePincodeCheck(val, subtotal);
+                            }
+                          }}
+                          onBlur={() => handlePincodeCheck(undefined, subtotal)}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={6}
+                          placeholder="Pincode (6 digits)"
+                          className={`${inputCls} pr-[100px]`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handlePincodeCheck()}
+                          disabled={pincode.length !== 6 || checkingPincode}
+                          className="absolute right-[8px] top-1/2 -translate-y-1/2 text-[0.78rem] font-bold bg-forest text-white px-[10px] py-[5px] rounded-[8px] border-none cursor-pointer disabled:opacity-50 hover:bg-[#3a6326] transition-colors"
+                        >
+                          {checkingPincode ? '...' : 'Check'}
+                        </button>
+                      </div>
+
+                      {/* Zone result feedback */}
+                      {zoneResult && (
+                        <div className={`mt-[0.5rem] px-[0.8rem] py-[0.5rem] rounded-[10px] text-[0.82rem] font-semibold flex items-center gap-[0.5rem] ${zoneResult.serviceable ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-600 border border-red-200'}`}>
+                          {zoneResult.serviceable ? (
+                            <>
+                              ✅ Delivery available — <strong>{zoneResult.zone?.name}</strong>
+                              &nbsp;({zoneResult.zone?.estimatedDays})
+                              &nbsp;·&nbsp;
+                              {zoneResult.isFreeDelivery
+                                ? <span className="text-green-700 font-extrabold">FREE Delivery 🎉</span>
+                                : <span>Shipping: ₹{zoneResult.shippingCharge}</span>}
+                              {zoneResult.freeDeliveryAbove && !zoneResult.isFreeDelivery && (
+                                <span className="text-[0.75rem] text-green-600 ml-1">(Free above ₹{zoneResult.freeDeliveryAbove})</span>
+                              )}
+                            </>
+                          ) : (
+                            <>❌ {zoneResult.message || 'We do not deliver to this pincode yet.'}</>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
                     <input name="street" required defaultValue={savedAddr?.street || user?.street || ''} type="text" placeholder="Street Address" className={`${inputCls} col-span-2`} />
                     <input name="apartment" defaultValue={savedAddr?.apartment || (user as any)?.apartment || ''} type="text" placeholder="Apartment, suite (optional)" className={`${inputCls} col-span-2`} />
                   </div>
+
                   {/* Save address checkbox */}
                   <label className="flex items-center gap-[0.6rem] mt-[0.8rem] cursor-pointer select-none">
                     <input
@@ -233,9 +344,17 @@ export function CheckoutModal() {
                   </label>
                 </div>
 
-                <button type="submit" className="w-full bg-forest text-white py-[1.1rem] rounded-[30px] font-extrabold text-[1rem] border-none cursor-pointer transition-all duration-300 hover:bg-[#3a6326] shadow-lg">
+                <button
+                  type="submit"
+                  disabled={zoneResult?.serviceable === false}
+                  className="w-full bg-forest text-white py-[1.1rem] rounded-[30px] font-extrabold text-[1rem] border-none cursor-pointer transition-all duration-300 hover:bg-[#3a6326] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   Continue to Payment →
                 </button>
+
+                {zoneResult?.serviceable === false && (
+                  <p className="text-center text-red-500 text-[0.85rem] -mt-[0.8rem]">Delivery not available for this pincode</p>
+                )}
               </form>
             </div>
 
@@ -267,7 +386,10 @@ export function CheckoutModal() {
               </div>
               <div className="flex flex-col gap-[0.7rem] border-t border-[#ddd] pt-[1.2rem]">
                 <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Subtotal</span><span className="font-semibold text-forest">₹{subtotal}</span></div>
-                <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Shipping</span><span className="font-semibold text-forest">{shipping === 0 ? 'Free' : `₹${shipping}`}</span></div>
+                <div className="flex justify-between text-[0.9rem] text-[#666]">
+                  <span>Shipping {zoneResult?.zone && <span className="text-[0.75rem] text-[#999]">({zoneResult.zone.name})</span>}</span>
+                  {shippingDisplay}
+                </div>
                 <div className="flex justify-between text-[1.15rem] font-black text-forest mt-[0.3rem] pt-[0.8rem] border-t border-[#ddd]"><span>Total</span><span>₹{total}</span></div>
               </div>
             </div>
@@ -375,7 +497,10 @@ export function CheckoutModal() {
               </div>
               <div className="flex flex-col gap-[0.7rem] border-t border-[#ddd] pt-[1.2rem]">
                 <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Subtotal</span><span className="font-semibold text-forest">₹{subtotal}</span></div>
-                <div className="flex justify-between text-[0.9rem] text-[#666]"><span>Shipping</span><span className="font-semibold text-forest">{shipping === 0 ? 'Free' : `₹${shipping}`}</span></div>
+                <div className="flex justify-between text-[0.9rem] text-[#666]">
+                  <span>Shipping {zoneResult?.zone && <span className="text-[0.75rem] text-[#999]">({zoneResult.zone.name})</span>}</span>
+                  {shippingDisplay}
+                </div>
                 <div className="flex justify-between text-[1.15rem] font-black text-forest mt-[0.3rem] pt-[0.8rem] border-t border-[#ddd]"><span>Total</span><span>₹{total}</span></div>
               </div>
 
@@ -385,6 +510,11 @@ export function CheckoutModal() {
                   <p className="text-[0.78rem] font-bold text-forest mb-[0.3rem] uppercase tracking-wide">Delivering to</p>
                   <p className="text-[0.85rem] text-[#555] m-0 font-semibold">{customerRef.current.name}</p>
                   <p className="text-[0.8rem] text-[#777] m-0">{customerRef.current.address}</p>
+                  {zoneResult?.zone && (
+                    <p className="text-[0.75rem] text-forest font-semibold mt-[0.3rem]">
+                      📦 Est. Delivery: {zoneResult.zone.estimatedDays}
+                    </p>
+                  )}
                 </div>
               )}
             </div>
