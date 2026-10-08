@@ -268,7 +268,7 @@ export function CheckoutModal() {
                     <input name="state" required defaultValue={savedAddr?.state || user?.state || ''} type="text" placeholder="State" className={inputCls} />
                     <input name="city" required defaultValue={savedAddr?.city || user?.city || ''} type="text" placeholder="City" className={inputCls} />
 
-                    {/* ── Pincode with Live Check ── */}
+                    {/* ── Pincode with Auto-Check ── */}
                     <div className="col-span-2">
                       <div className="relative">
                         <input
@@ -291,16 +291,17 @@ export function CheckoutModal() {
                           inputMode="numeric"
                           maxLength={6}
                           placeholder="Pincode (6 digits)"
-                          className={`${inputCls} pr-[100px]`}
+                          className={`${inputCls} pr-[2.8rem]`}
                         />
-                        <button
-                          type="button"
-                          onClick={() => handlePincodeCheck()}
-                          disabled={pincode.length !== 6 || checkingPincode}
-                          className="absolute right-[8px] top-1/2 -translate-y-1/2 text-[0.78rem] font-bold bg-forest text-white px-[10px] py-[5px] rounded-[8px] border-none cursor-pointer disabled:opacity-50 hover:bg-[#3a6326] transition-colors"
-                        >
-                          {checkingPincode ? '...' : 'Check'}
-                        </button>
+                        {/* Inline spinner — visible only while checking */}
+                        {checkingPincode && (
+                          <span className="absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none">
+                            <svg className="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d5016" strokeWidth="2.5">
+                              <circle cx="12" cy="12" r="10" strokeOpacity="0.2" />
+                              <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
+                            </svg>
+                          </span>
+                        )}
                       </div>
 
                       {/* Zone result feedback */}
