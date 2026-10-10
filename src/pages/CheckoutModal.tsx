@@ -143,6 +143,7 @@ export function CheckoutModal() {
       paymentDetails: {},
       shippingCharge: shipping,
       deliveryZone: zoneResult?.zone?.name || null,
+      estimatedDays: formatEstimatedTime(zoneResult?.zone?.estimatedDays) || null,
     };
 
     try {
@@ -208,6 +209,13 @@ export function CheckoutModal() {
   };
 
   const inputCls = 'px-[1rem] py-[0.85rem] rounded-[12px] border border-[#ddd] focus:border-forest focus:ring-1 focus:ring-forest outline-none transition-all text-[0.95rem] w-full';
+
+  const formatEstimatedTime = (val?: string | null) => {
+    if (!val) return '';
+    const s = String(val).trim();
+    if (/^\d+$/.test(s)) return `${s} Hr`;
+    return s;
+  };
 
   // Shipping display
   const shippingDisplay = zoneResult?.serviceable
@@ -310,7 +318,7 @@ export function CheckoutModal() {
                           {zoneResult.serviceable ? (
                             <>
                               ✅ Delivery available — <strong>{zoneResult.zone?.name}</strong>
-                              &nbsp;({zoneResult.zone?.estimatedDays})
+                              &nbsp;({formatEstimatedTime(zoneResult.zone?.estimatedDays)})
                               &nbsp;·&nbsp;
                               {zoneResult.isFreeDelivery
                                 ? <span className="text-green-700 font-extrabold">FREE Delivery 🎉</span>
@@ -513,7 +521,7 @@ export function CheckoutModal() {
                   <p className="text-[0.8rem] text-[#777] m-0">{customerRef.current.address}</p>
                   {zoneResult?.zone && (
                     <p className="text-[0.75rem] text-forest font-semibold mt-[0.3rem]">
-                      📦 Est. Delivery: {zoneResult.zone.estimatedDays}
+                      📦 Est. Delivery: {formatEstimatedTime(zoneResult.zone.estimatedDays)}
                     </p>
                   )}
                 </div>
