@@ -64,15 +64,17 @@ export const createOrder = async (
   orderData: OrderPayload,
 ): Promise<OrderResponse> => {
   const token = localStorage.getItem("token");
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (token && token !== "null" && token !== "undefined" && token.trim() !== "") {
+    headers.Authorization = `Bearer ${token.trim()}`;
+  }
+
   const { data } = await axiosClient.post<OrderResponse>(
     ORDER_ENDPOINT,
     orderData,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    },
+    { headers },
   );
   return data;
 };

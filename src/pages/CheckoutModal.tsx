@@ -108,10 +108,10 @@ export function CheckoutModal() {
     }
 
     customerRef.current = {
-      name: `${formData.get('firstName')} ${formData.get('lastName')}`,
-      email: formData.get('email') as string,
-      phone: formData.get('phone') as string,
-      address: `${addressData.street}, ${addressData.apartment ? addressData.apartment + ', ' : ''}${addressData.city}, ${addressData.state} - ${addressData.zip}`
+      name: `${formData.get('firstName') || ''} ${formData.get('lastName') || ''}`.trim(),
+      email: (formData.get('email') as string || '').trim(),
+      phone: (formData.get('phone') as string || '').trim(),
+      address: `${addressData.street}, ${addressData.apartment ? addressData.apartment + ', ' : ''}${addressData.city}, ${addressData.state} - ${addressData.zip}`.trim()
     };
     if (saveAddress) {
       localStorage.setItem(SAVED_ADDRESS_KEY, JSON.stringify(addressData));
@@ -156,7 +156,7 @@ export function CheckoutModal() {
         setStep(3);
       } else {
         orderSavedRef.current = false;
-        const razorpayOrder = await initiatePayment(cartItems);
+        const razorpayOrder = await initiatePayment(cartItems, shipping, pincode);
 
         const options = {
           key: razorpayOrder.key_id || (import.meta.env.VITE_NODE_ENV === 'production'
@@ -169,9 +169,7 @@ export function CheckoutModal() {
           order_id: razorpayOrder.razorpayOrderId,
           handler: async function (response: any) {
             if (orderSavedRef.current) return;
-            orderSavedRef.current = true;
-            clearCart();
-            setStep(3);
+            setIsSubmitting(true);
             try {
               orderData.paymentDetails = {
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -179,10 +177,28 @@ export function CheckoutModal() {
                 razorpay_signature: response.razorpay_signature,
               };
               const result = await createOrder(orderData);
-              if (user) addOrder({ id: `ORD-${result.order.id}`, date: new Date().toLocaleDateString(), total: result.order.totalAmount, status: result.order.status });
+              orderSavedRef.current = true;
+              clearCart();
+              if (user) {
+                addOrder({
+                  id: `ORD-${result.order.id}`,
+                  date: new Date().toLocaleDateString(),
+                  total: result.order.totalAmount,
+                  status: result.order.status,
+                });
+              }
+              setStep(3);
             } catch (err: any) {
-              console.error('Order save failed after payment:', err.message);
-              toast.error('Payment received! But order saving failed. Please contact us with your payment ID: ' + response.razorpay_payment_id);
+              console.error('Order save failed after payment:', err);
+              toast.error(
+                'Payment received! But order saving encountered an error: ' +
+                  (err.message || '') +
+                  '. Please contact support with payment ID: ' +
+                  response.razorpay_payment_id,
+                { duration: 10000 }
+              );
+            } finally {
+              setIsSubmitting(false);
             }
           },
           prefill: {
